@@ -1,0 +1,443 @@
+<html>
+  <head>
+    <title>grbl.js</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/index.css" />
+    <script defer src="lib/fontawesome/js/all.js"></script>
+  </head>
+  <body>
+    <div class="container-fluid">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="navbar-nav mr-auto">
+          </form>
+          <form class="form-inline my-2 my-lg-0">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fab fa-usb"></i></span>
+              </div>
+              <select class="form-control" id="ports"></select>
+            <div>
+            <button type="button" class="btn btn-default btn-success" id="connectBtn">Connect</button>
+            <button type="button" class="btn btn-default btn-danger" id="disconnectBtn">Disconnect</button>
+          </form>
+        </div>
+      </nav>
+
+      <div class="row">
+        <div class="col-sm">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Control</h5>
+              <div class="card-text">
+                <div class="btn-group btn-group-lg" role="group" aria-label="Control Buttons">
+                  <button type="button" class="btn btn-secondary btn-success" id="playBtn"><i class="fas fa-play"></i></button>
+                  <button type="button" class="btn btn-secondary btn-success" id="pauseBtn"><i class="fas fa-pause"></i></button>
+                  <button type="button" class="btn btn-secondary btn-success" id="resumeBtn"><i class="fas fa-play"></i></button>
+                  <button type="button" class="btn btn-secondary btn-success" id="stopBtn"><i class="fas fa-stop"></i></button>
+                  <button type="button" class="btn btn-secondary btn-success" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card mt-2">
+            <div class="card-body">
+              <h5 class="card-title">Console</h5>
+              <div class="card-text">
+                <div id="console"></div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend success">
+                    <span class="input-group-text"><i class="fas fa-terminal"></i></span>
+                  </div>
+                  <input type="text" class="form-control success" placeholder="" aria-label="Console Command" id="consoleCommand">
+                  <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="consoleBtn">Send</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="card">
+            <div class="card-body">
+              <!-- <h5 class="card-title">Position</h5> -->
+              <div class="card-text">
+                <table class="table table-sm">
+                  <!-- Accesories -->
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Accesories</th>
+                      <th scope="col"></th>
+                      <th scope="col">State</th>
+                    </tr>
+                  </thead>
+                  <tr>
+                    <th scope="row">SPINDLE</th>
+                    <td></td>
+                    <td id="accSpindle"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">COOLANT</th>
+                    <td></td>
+                    <td id="accCoolant"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">MIST</th>
+                    <td ></td>
+                    <td id="accMist"></td>
+                  </tr>
+
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Position</th>
+                      <th scope="col">Work</th>
+                      <th scope="col">Machine</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">X</th>
+                      <td id="xWPos">0.00</td>
+                      <td id="xMPos">0.00</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Y</th>
+                      <td id="yWPos">0.00</td>
+                      <td id="yMPos">0.00</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Z</th>
+                      <td id="zWPos">0.00</td>
+                      <td id="zMPos">0.00</td>
+                    </tr>
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Overrides</th>
+                        <th scope="col">Actual</th>
+                        <th scope="col">Override</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <th scope="row">M3 Sxx</th>
+                      <td id="sVal">0</td>
+                      <td id="sValOverride">0</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">G1 F</th>
+                      <td id="fVal">0</td>
+                      <td id="fValOverride">0</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Rapid</th>
+                      <td id="rapidVal"></td>
+                      <td id="rapidOverride">0</td>
+                    </tr>
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Modal</th>
+                        <th scope="col"></th>
+                        <th scope="col">Value</th>
+                      </tr>
+                    </thead>
+                    <tr>
+                      <th scope="row">Motion Mode</th>
+                      <td></td>
+                      <td id="motionmode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Coordinate System Select</th>
+                      <td></td>
+                      <td id="coordinatesys"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Plane Select</th>
+                      <td></td>
+                      <td id="plane"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Distance Mode</th>
+                      <td></td>
+                      <td id="distancemode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Arc IJK Distance Mode</th>
+                      <td></td>
+                      <td id="arcdistmode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Feed Rate Mode</th>
+                      <td></td>
+                      <td id="feedratemode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Units Mode</th>
+                      <td></td>
+                      <td id="unitsmode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Tool Length set</th>
+                      <td></td>
+                      <td id="tlomode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Program Mode</th>
+                      <td></td>
+                      <td id="programmode"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Spindle State</th>
+                      <td></td>
+                      <td id="spindlestate"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Coolant State</th>
+                      <td></td>
+                      <td id="coolantstate"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cutter Radius Compensation	</th>
+                      <td></td>
+                      <td id="radiuscomp"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Modal Tool T?</th>
+                      <td></td>
+                      <td id="modaltool"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Modal Spindle S?	</th>
+                      <td></td>
+                      <td id="modalspindle"></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Modal Feedrate F?	</th>
+                      <td></td>
+                      <td id="modalfeedrate"></td>
+                    </tr>
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Info</th>
+                        <th scope="col"></th>
+                        <th scope="col">Value</th>
+                      </tr>
+                    </thead>
+                      <tr>
+                        <th scope="row">blocked</th>
+                        <td></td>
+                        <td><span id="commsBlocked"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">connectionStatus</th>
+                        <td></td>
+                        <td><span id="commsConnectionStatus"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">USB Connection</th>
+                        <td></td>
+                        <td><span id="activeConnection"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Buffer</th>
+                        <td></td>
+                        <td><span id="commsBuffer"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Queue</th>
+                        <td></td>
+                        <td><span id="commsQueue"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">IP</th>
+                        <td></td>
+                        <td><span id="driverIP"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">O/S</th>
+                        <td></td>
+                        <td><span id="driverOS"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Version</th>
+                        <td></td>
+                        <td><span id="driverVer"></span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Grbl Version</th>
+                        <td></td>
+                        <td><span id="grblVer"></span></td>
+                      </tr>
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">Compiled</th>
+                          <th scope="col"></th>
+                          <th scope="col">Value</th>
+                        </tr>
+                      </thead>
+
+                      <tr>
+                        <th scope="row">Variable Spindle</th>
+                        <td></td>
+                        <td id="enVariableSpindle"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Laser Mode Enabled ($32 Setting)</th>
+                        <td></td>
+                        <td id="enLaser"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Grbl-Servo Installed</th>
+                        <td></td>
+                        <td id="enServo"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Line Numbers Enabled</th>
+                        <td></td>
+                        <td id="enLineNumbers"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Mist Cooling Enabled</th>
+                        <td></td>
+                        <td id="enMisting"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">CoreXY Enabled</th>
+                        <td></td>
+                        <td id="enCoreXY"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Parking Motion Enabled</th>
+                        <td></td>
+                        <td id="enParking"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Homing Force Origin Enabled</th>
+                        <td></td>
+                        <td id="enHomingOrigin"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Single Axis Homing</th>
+                        <td></td>
+                        <td id="enSingleAxisHome"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Two Limit Switches on Axis Enabled</th>
+                        <td></td>
+                        <td id="enTwoLimits"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Allow Feed Override in Probe</th>
+                        <td></td>
+                        <td id="enFeedOVProbe"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Restore EEPROM $-settings Disabled</th>
+                        <td></td>
+                        <td id="enEepromSettingsDisable"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Restore EEPROM parameter Disabled</th>
+                        <td></td>
+                        <td id="enEepromParamsDisable"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Build Info Write Disabled</th>
+                        <td></td>
+                        <td id="enBuildInfoDisabled"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Force Sync on EEPROM write Disabled</th>
+                        <td></td>
+                        <td id="enForceSyncEeprom"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Force Sync on WCO Disabled</th>
+                        <td></td>
+                        <td id="enForceSyncWco"></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Homing Init Lock</th>
+                        <td></td>
+                        <td id="enHomingInitLock"></td>
+                      </tr>
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">Pins</th>
+                          <th scope="col"></th>
+                          <th scope="col">Value</th>
+                        </tr>
+                      </thead>
+                      <tr>
+                        <th scope="row">X-Limit</th>
+                        <td></td>
+                        <td id="xpin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Y-Limit</th>
+                        <td></td>
+                        <td id="ypin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Z-Limit</th>
+                        <td></td>
+                        <td id="zpin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Probe</th>
+                        <td></td>
+                        <td id="prbpin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Door Sensor</th>
+                        <td></td>
+                        <td id="doorpin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Start Button</th>
+                        <td></td>
+                        <td id="startpin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Hold Button</th>
+                        <td></td>
+                        <td id="holdpin" class="pinstatus">NOCOMM</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Reset Button</th>
+                        <td></td>
+                        <td id="resetpin" class="pinstatus">NOCOMM</td>
+                        </td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+
+
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  </body>
+  <script type="text/javascript" src="lib/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="lib/jquery.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="js/socket.js"></script>
+</html>
