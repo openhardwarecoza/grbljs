@@ -1,32 +1,200 @@
-.pf {
-    margin-top: 0px;
-    margin-bottom: -4px;
+body {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#7d7e7d+0,0e0e0e+100;Black+3D */
+  background: #7d7e7d;
+  /* Old browsers */
+  background: -moz-linear-gradient(left, #7d7e7d 0%, #0e0e0e 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #7d7e7d 0%, #0e0e0e 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #7d7e7d 0%, #0e0e0e 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#7d7e7d', endColorstr='#0e0e0e', GradientType=1);
+  /* IE6-9 */
+  font-size: 12px;
+  color: #fff;
 }
 
-#console > p:hover {
-  background-color: #eee;
+input:focus, textarea {
+  outline: none !important;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #222;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+tr:nth-child(odd) {
+  background-color: #222;
+}
+
+th {
+  font-weight: 600;
+  text-align: left;
+}
+
+tr {
+  border-bottom: 1px solid #222;
+  background-color: #333;
+}
+
+td {
+  padding-left: 3px;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.pf {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#console>p:hover {
+  background-color: #444;
 }
 
 #console {
-    /*font-family: "Courier New", Courier, monospace;*/
-    font-family: "Lucida Console", Monaco, monospace;
-    height: 240px;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: none;
-    text-align: left;
-    /* background-color: #fff; */
-    /* box-shadow: 0 0 2px 2px #ddd; */
-    padding: 0px;
-    font-size: 12px;
-    /* padding-left: 20px; */
-    white-space:normal;
-    margin-bottom: 0px;
-    -webkit-touch-callout:  text; /* iOS Safari */
-       -webkit-user-select: text; /* Safari */
-        -khtml-user-select: text; /* Konqueror HTML */
-          -moz-user-select: text; /* Firefox */
-           -ms-user-select: text; /* Internet Explorer/Edge */
-               user-select: text; /* Non-prefixed version, currently
-                                     supported by Chrome and Opera */
+  font-family: "Lucida Console", Monaco, monospace;
+  height: 240px;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: none;
+  text-align: left;
+  padding: 5px;
+  font-size: 12px;
+  white-space: normal;
+  margin-bottom: 0px;
+  -webkit-touch-callout: text;
+  /* iOS Safari */
+  -webkit-user-select: text;
+  /* Safari */
+  -khtml-user-select: text;
+  /* Konqueror HTML */
+  -moz-user-select: text;
+  /* Firefox */
+  -ms-user-select: text;
+  /* Internet Explorer/Edge */
+  user-select: text;
+  /* Non-prefixed version, currently supported by Chrome and Opera */
+}
+
+.monitor {
+  background-image: radial-gradient(rgba(50, 50, 50, 0.75), black 120%);
+  text-shadow: 0 0 2px #888;
+  position: relative;
+  background-repeat: no-repeat;
+}
+
+.btn {
+  padding: 8px;
+  background: #ccc;
+  background-color: #222;
+  border: 1px solid #ccc;
+  color: #fff
+}
+
+.btn:hover {
+  background: #eee;
+  background-color: #ccc;
+  border: 1px solid #ccc;
+  color: #222
+}
+
+.btn:disabled {
+  background-color: #222;
+  border: 1px solid #ccc;
+  color: #eee
+}
+
+/* https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
+.InputAddOn {
+  display: flex;
+}
+
+.InputAddOn-field {
+  flex: 1;
+  border: 1px solid #ccc;
+  background-color: #222;
+  color: #fff
+}
+
+.InputAddOn-item {
+  padding: 3px;
+  border: 1px solid #ccc;
+  background-color: #222;
+  color: #fff
+}
+
+.button-group {
+  display: flex;
+}
+
+.button-group-item {
+  margin: 5px;
+}
+
+.card {
+  background-color: #333;
+  padding: 5px;
+  margin: 3px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  resize: both;
+  overflow: hidden;
+}
+
+.card-header {
+  width: 100%;
+  padding-top: 0px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  font-size: 16px;
+  font-weight: 400;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 3px;
+  text-shadow: 0px 0px 3px #ccc;
+}
+
+.alert {
+  background-color: #cc0000 !important;
+}
+
+.success {
+  background-color: #008800 !important;
+}
+
+.text-alert {
+  color: #cc0000 !important;
+}
+
+.text-success {
+  color: #008800 !important;
+}
+
+.text-secondary {
+  color: #ccc !important;
 }

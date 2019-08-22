@@ -27,6 +27,9 @@ var SerialPort = serialport;
 const Readline = SerialPort.parsers.Readline;
 var ip = require("ip");
 
+// telnet
+const net = require('net');
+
 // WebServer
 var express = require("express");
 var app = express();
@@ -56,10 +59,19 @@ io.attach(httpserver);
 io.attach(httpsserver);
 
 // Variables
-var oldportslist, gcodeQueue = [], queuePointer = 0, statusLoop, queueCounter, sentBuffer = [];
+var oldportslist, oldpinslist = [],
+  gcodeQueue = [],
+  queuePointer = 0,
+  statusLoop, queueCounter, sentBuffer = [];
 var GRBL_RX_BUFFER_SIZE = 127; // 128 characters
-var xPos = 0.00, yPos = 0.00, zPos = 0.00, aPos = 0.00;
-var xOffset = 0.00, yOffset = 0.00, zOffset = 0.00, aOffset = 0.00;
+var xPos = 0.00,
+  yPos = 0.00,
+  zPos = 0.00,
+  aPos = 0.00;
+var xOffset = 0.00,
+  yOffset = 0.00,
+  zOffset = 0.00,
+  aOffset = 0.00;
 var has4thAxis = false;
 var feedOverride = 100,
   spindleOverride = 100;
@@ -142,7 +154,8 @@ var status = {
     paused: false,
     interfaces: {
       ports: "",
-      activePort: "" // or activeIP in the case of wifi/telnet?
+      activePort: "", // or activeIP in the case of wifi/telnet?
+      type: ""
     },
     alarm: ""
   }
@@ -203,12 +216,19 @@ var serviceInterval = setInterval(function() {
 // Handler: IO
 io.on("connection", function(socket) {
   socket.on("connectTo", function(data) { // If a user picks a port to connect to, open a Node SerialPort Instance to it
+    console.log(data)
     if (status.comms.connectionStatus < 1) {
-      postLog("connect", "Connecting to " + data.port + " at baud " + data.baud)
+      postLog("connect", "Connecting to " + data.port + " at baud " + data.baud + " via " + data.type)
 
-      port = new SerialPort(data.port, {
-        baudRate: parseInt(data.baud)
-      });
+      if (data.type == "usb") {
+        port = new SerialPort(data.port, {
+          baudRate: parseInt(data.baud)
+        });
+      } else if (data.type == "telnet") {
+        port = net.connect(23, data.ip);
+        port.isOpen = true;
+      }
+
       parser = port.pipe(new Readline({
         delimiter: '\r\n'
       }));
@@ -225,30 +245,37 @@ io.on("connection", function(socket) {
         }
 
       });
-      port.on("open", function() {
-        postLog("connect", "PORT INFO: Port is now open: " + port.path + " - Attempting to detect Firmware")
-        postLog("connect", "Checking for firmware on " + port.path);
-        status.comms.connectionStatus = 1;
-        addQRealtime("\n"); // this causes smoothie to send the welcome string
-        postLog("connect", "Detecting Firmware: Method 1 (Autoreset)")
-        setTimeout(function() { //wait for controller to be ready
-          if (status.machine.firmware.type.length < 1) {
-            postLog("connect", "Detecting Firmware: Method 2 (Ctrl+X)")
-            addQRealtime(String.fromCharCode(0x18)); // ctrl-x (needed for rx/tx connection)
-          }
-        }, 2000);
-        setTimeout(function() {
-          // Close port if we don't detect supported firmware after 2s.
-          if (status.machine.firmware.type.length < 1) {
-            postLog("connect", "No supported firmware detected. Closing port " + port.path)
-            stopPort();
-          } else {
-            postLog("connect", "Firmware Detected:  " + status.machine.firmware.type + " version " + status.machine.firmware.version + " on " + port.path)
-          }
-        }, 4000);
-        status.comms.connectionStatus = 2;
-        status.comms.interfaces.activePort = port.path;
-        status.comms.interfaces.activeBaud = port.baudRate;
+
+
+      port.on("ready", function(e) {
+        portOpened(port, data)
+      });
+
+      port.on("open", function(e) {
+        portOpened(port, data)
+        // postLog("connect", "PORT INFO: Port is now open: " + port.path + " - Attempting to detect Firmware")
+        // postLog("connect", "Checking for firmware on " + port.path);
+        // status.comms.connectionStatus = 1;
+        // addQRealtime("\n"); // this causes smoothie to send the welcome string
+        // postLog("connect", "Detecting Firmware: Method 1 (Autoreset)")
+        // setTimeout(function() { //wait for controller to be ready
+        //   if (status.machine.firmware.type.length < 1) {
+        //     postLog("connect", "Detecting Firmware: Method 2 (Ctrl+X)")
+        //     addQRealtime(String.fromCharCode(0x18)); // ctrl-x (needed for rx/tx connection)
+        //   }
+        // }, 2000);
+        // setTimeout(function() {
+        //   // Close port if we don't detect supported firmware after 2s.
+        //   if (status.machine.firmware.type.length < 1) {
+        //     postLog("connect", "No supported firmware detected. Closing port " + port.path)
+        //     stopPort();
+        //   } else {
+        //     postLog("connect", "Firmware Detected:  " + status.machine.firmware.type + " version " + status.machine.firmware.version + " on " + port.path)
+        //   }
+        // }, 4000);
+        // status.comms.connectionStatus = 2;
+        // status.comms.interfaces.activePort = port.path;
+        // status.comms.interfaces.activeBaud = port.baudRate;
       }); // end port .onopen
 
       port.on("close", function() { // open errors will be emitted as an error event
@@ -258,6 +285,7 @@ io.on("connection", function(socket) {
 
       parser.on("data", function(data) {
 
+        console.log(data)
         // Response Messages: Normal send command and execution response acknowledgement. Used for streaming.
         // -----------------
         //
@@ -370,7 +398,7 @@ io.on("connection", function(socket) {
         console.log('ERROR: Unsupported firmware!');
         break;
     }
-  });// end socket.onZProbe
+  }); // end socket.onZProbe
 
   socket.on('jog', function(data) { // data = {dist: 10, feed: 1000, dir: 'X+'}
     if (status.comms.connectionStatus > 0) {
@@ -399,7 +427,7 @@ io.on("connection", function(socket) {
     } else {
       console.log('ERROR: Machine connection not open!');
     }
-  });// end socket.onJog
+  }); // end socket.onJog
 
   socket.on('feedOverride', function(data) {
     if (status.comms.connectionStatus > 0) {
@@ -477,7 +505,7 @@ io.on("connection", function(socket) {
     } else {
       console.log('ERROR: Machine connection not open!');
     }
-  });// end socket.onFeedOverride
+  }); // end socket.onFeedOverride
 
   socket.on('spindleOverride', function(data) {
     if (status.comms.connectionStatus > 0) {
@@ -555,19 +583,19 @@ io.on("connection", function(socket) {
     } else {
       console.log('ERROR: Machine connection not open!');
     }
-  });// end socket.onSpindleOverride
+  }); // end socket.onSpindleOverride
 
   socket.on('pause', function() {
     pause();
-  });// end socket.onPause
+  }); // end socket.onPause
 
   socket.on('resume', function() {
     unpause();
-  });// end socket.onResume
+  }); // end socket.onResume
 
   socket.on('stop', function(data) {
     stop(data);
-  });// end socket.onStop
+  }); // end socket.onStop
 
   socket.on('clearAlarm', function(data) { // Clear Alarm
     if (status.comms.connectionStatus > 0) {
@@ -608,7 +636,7 @@ io.on("connection", function(socket) {
     } else {
       console.log('ERROR: Machine connection not open!');
     }
-  });// end socket.onClearAlarm
+  }); // end socket.onClearAlarm
 
   socket.on('closePort', function(data) { // Close machine port and dump queue
     if (status.comms.connectionStatus > 0) {
@@ -617,7 +645,7 @@ io.on("connection", function(socket) {
     } else {
       console.log('ERROR: Machine connection not open!');
     }
-  });// end socket.onClosePort
+  }); // end socket.onClosePort
 
 
   socket.on('runJob', function(data) {
@@ -648,7 +676,7 @@ io.on("connection", function(socket) {
     } else {
       console.log('ERROR: Machine connection not open!');
     }
-  });// end socket.onRunJob
+  }); // end socket.onRunJob
 
 });
 
@@ -706,71 +734,77 @@ function stopPort() {
   status.machine.buffer = "";
   gcodeQueue.length = 0;
   sentBuffer.length = 0; // dump bufferSizes
-  port.drain(port.close());
+
+  if (status.comms.interfaces.type == "usb") {
+    port.drain(port.close());
+  } else if (status.comms.interfaces.type == "telnet") {
+    port.destroy();
+  }
+
   status.machine = {
-      name: '',
-      inputs: [],
-      accesories: [],
-      overrides: {
-        feedOverride: 100, //
-        spindleOverride: 100, //
-        rapidOverride: 100
+    name: '',
+    inputs: [],
+    accesories: [],
+    overrides: {
+      feedOverride: 100, //
+      spindleOverride: 100, //
+      rapidOverride: 100
+    },
+    values: {
+      realFeed: 0, //
+      realSpindle: 0 //
+    },
+    modals: {
+      motionmode: "G0", // G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80
+      coordinatesys: "G54", // G54, G55, G56, G57, G58, G59
+      plane: "G17", // G17, G18, G19
+      distancemode: "G90", // G90, G91
+      arcdistmode: "G91.1", // G91.1
+      feedratemode: "G94", // G93, G94
+      unitsmode: "G21", // G20, G21
+      radiuscomp: "G40", // G40
+      tlomode: "G49", // G43.1, G49
+      programmode: "M0", // M0, M1, M2, M30
+      spindlestate: "M5", // M3, M4, M5
+      coolantstate: "M9", // M7, M8, M9
+      tool: "0",
+      spindle: "0",
+      feedrate: "0"
+    },
+    probe: {
+      x: 0.00,
+      y: 0.00,
+      z: 0.00,
+      state: -1,
+      plate: 0.00,
+      request: {}
+    },
+    status: {
+      work: {
+        x: 0,
+        y: 0,
+        z: 0,
+        a: 0,
+        e: 0
       },
-      values: {
-        realFeed: 0, //
-        realSpindle: 0 //
-      },
-      modals: {
-        motionmode: "G0", // G0, G1, G2, G3, G38.2, G38.3, G38.4, G38.5, G80
-        coordinatesys: "G54", // G54, G55, G56, G57, G58, G59
-        plane: "G17", // G17, G18, G19
-        distancemode: "G90", // G90, G91
-        arcdistmode: "G91.1", // G91.1
-        feedratemode: "G94", // G93, G94
-        unitsmode: "G21", // G20, G21
-        radiuscomp: "G40", // G40
-        tlomode: "G49", // G43.1, G49
-        programmode: "M0", // M0, M1, M2, M30
-        spindlestate: "M5", // M3, M4, M5
-        coolantstate: "M9", // M7, M8, M9
-        tool: "0",
-        spindle: "0",
-        feedrate: "0"
-      },
-      probe: {
-        x: 0.00,
-        y: 0.00,
-        z: 0.00,
-        state: -1,
-        plate: 0.00,
-        request: {}
-      },
-      status: {
-        work: {
-          x: 0,
-          y: 0,
-          z: 0,
-          a: 0,
-          e: 0
-        },
-        offset: {
-          x: 0,
-          y: 0,
-          z: 0,
-          a: 0,
-          e: 0
-        }
-      },
-      firmware: {
-        type: "",
-        version: "",
-        date: "",
-        buffer: [],
-        features: [],
-        blockBufferSize: "",
-        rxBufferSize: "",
-      },
-    }
+      offset: {
+        x: 0,
+        y: 0,
+        z: 0,
+        a: 0,
+        e: 0
+      }
+    },
+    firmware: {
+      type: "",
+      version: "",
+      date: "",
+      buffer: [],
+      features: [],
+      blockBufferSize: "",
+      rxBufferSize: "",
+    },
+  }
 }
 
 function send1Q() {
@@ -828,7 +862,7 @@ function parseOpt(data) {
     var i = grblOpts[0].length;
     while (i--) {
       features.push(grblOpts[0].charAt(i))
-      switch(grblOpts[0].charAt(i)) {
+      switch (grblOpts[0].charAt(i)) {
         case 'Q':
           postLog("features", 'SPINDLE_IS_SERVO Enabled')
           //
@@ -976,76 +1010,158 @@ function gotModals(data) {
 
   data = data.split(/:|\[|\]/)[2].split(" ")
 
-  for (i=0; i<data.length; i++) {
-    if (data[i] == "G0")    {status.machine.modals.motionmode = "G0";}
-    if (data[i] == "G1")    {status.machine.modals.motionmode = "G1";}
-    if (data[i] == "G2")    {status.machine.modals.motionmode = "G2";}
-    if (data[i] == "G3")    {status.machine.modals.motionmode = "G3";}
-    if (data[i] == "G38.2") {status.machine.modals.motionmode = "G38.2";}
-    if (data[i] == "G38.3") {status.machine.modals.motionmode = "G38.3";}
-    if (data[i] == "G38.4") {status.machine.modals.motionmode = "G38.4";}
-    if (data[i] == "G38.5") {status.machine.modals.motionmode = "G38.5";}
-    if (data[i] == "G80")   {status.machine.modals.motionmode = "G80";}
+  for (i = 0; i < data.length; i++) {
+    if (data[i] == "G0") {
+      status.machine.modals.motionmode = "G0";
+    }
+    if (data[i] == "G1") {
+      status.machine.modals.motionmode = "G1";
+    }
+    if (data[i] == "G2") {
+      status.machine.modals.motionmode = "G2";
+    }
+    if (data[i] == "G3") {
+      status.machine.modals.motionmode = "G3";
+    }
+    if (data[i] == "G38.2") {
+      status.machine.modals.motionmode = "G38.2";
+    }
+    if (data[i] == "G38.3") {
+      status.machine.modals.motionmode = "G38.3";
+    }
+    if (data[i] == "G38.4") {
+      status.machine.modals.motionmode = "G38.4";
+    }
+    if (data[i] == "G38.5") {
+      status.machine.modals.motionmode = "G38.5";
+    }
+    if (data[i] == "G80") {
+      status.machine.modals.motionmode = "G80";
+    }
 
     //   status.machine.modals.coordinatesys = "G54"; // G54, G55, G56, G57, G58, G59
-    if (data[i] == "G54") {status.machine.modals.coordinatesys = "G54";}
-    if (data[i] == "G55") {status.machine.modals.coordinatesys = "G55";}
-    if (data[i] == "G56") {status.machine.modals.coordinatesys = "G56";}
-    if (data[i] == "G57") {status.machine.modals.coordinatesys = "G57";}
-    if (data[i] == "G58") {status.machine.modals.coordinatesys = "G58";}
-    if (data[i] == "G59") {status.machine.modals.coordinatesys = "G59";}
+    if (data[i] == "G54") {
+      status.machine.modals.coordinatesys = "G54";
+    }
+    if (data[i] == "G55") {
+      status.machine.modals.coordinatesys = "G55";
+    }
+    if (data[i] == "G56") {
+      status.machine.modals.coordinatesys = "G56";
+    }
+    if (data[i] == "G57") {
+      status.machine.modals.coordinatesys = "G57";
+    }
+    if (data[i] == "G58") {
+      status.machine.modals.coordinatesys = "G58";
+    }
+    if (data[i] == "G59") {
+      status.machine.modals.coordinatesys = "G59";
+    }
 
     //   status.machine.modals.plane = "G17"; // G17, G18, G19
-    if (data[i] == "G17") {status.machine.modals.plane = "G17";}
-    if (data[i] == "G18") {status.machine.modals.plane = "G18";}
-    if (data[i] == "G19") {status.machine.modals.plane = "G19";}
+    if (data[i] == "G17") {
+      status.machine.modals.plane = "G17";
+    }
+    if (data[i] == "G18") {
+      status.machine.modals.plane = "G18";
+    }
+    if (data[i] == "G19") {
+      status.machine.modals.plane = "G19";
+    }
 
     //   status.machine.modals.distancemode = "G90"; // G90, G91
-    if (data[i] == "G90") {status.machine.modals.distancemode = "G90";}
-    if (data[i] == "G91") {status.machine.modals.distancemode = "G91";}
+    if (data[i] == "G90") {
+      status.machine.modals.distancemode = "G90";
+    }
+    if (data[i] == "G91") {
+      status.machine.modals.distancemode = "G91";
+    }
 
     //   status.machine.modals.arcdistmode = "G91.1"; // G91.1
-    if (data[i] == "G91.1") {status.machine.modals.arcdistmode = "G91.1";}
+    if (data[i] == "G91.1") {
+      status.machine.modals.arcdistmode = "G91.1";
+    }
 
     //   status.machine.modals.feedratemode = "G94"; // G93, G94
-    if (data[i] == "G93") {status.machine.modals.feedratemode = "G93";}
-    if (data[i] == "G94") {status.machine.modals.feedratemode = "G94";}
+    if (data[i] == "G93") {
+      status.machine.modals.feedratemode = "G93";
+    }
+    if (data[i] == "G94") {
+      status.machine.modals.feedratemode = "G94";
+    }
 
     //   status.machine.modals.unitsmode = "G21"; // G20, G21
-    if (data[i] == "G20") {status.machine.modals.unitsmode = "G20";}
-    if (data[i] == "G21") {status.machine.modals.unitsmode = "G21";}
+    if (data[i] == "G20") {
+      status.machine.modals.unitsmode = "G20";
+    }
+    if (data[i] == "G21") {
+      status.machine.modals.unitsmode = "G21";
+    }
 
     //   status.machine.modals.radiuscomp = "G40"; // G40
-    if (data[i] == "G40") {status.machine.modals.radiuscomp = "G40";}
+    if (data[i] == "G40") {
+      status.machine.modals.radiuscomp = "G40";
+    }
 
     //   status.machine.modals.tlomode = "G49"; // G43.1, G49
-    if (data[i] == "G49") {status.machine.modals.tlomode = "G49";}
-    if (data[i] == "G43.1") {status.machine.modals.tlomode = "G43.1";}
+    if (data[i] == "G49") {
+      status.machine.modals.tlomode = "G49";
+    }
+    if (data[i] == "G43.1") {
+      status.machine.modals.tlomode = "G43.1";
+    }
 
     //   status.machine.modals.programmode = "M0"; // M0, M1, M2, M30
-    if (data[i] == "M0") {status.machine.modals.programmode = "M0";}
-    if (data[i] == "M1") {status.machine.modals.programmode = "M1";}
-    if (data[i] == "M2") {status.machine.modals.programmode = "M2";}
-    if (data[i] == "M30") {status.machine.modals.programmode = "M30";}
+    if (data[i] == "M0") {
+      status.machine.modals.programmode = "M0";
+    }
+    if (data[i] == "M1") {
+      status.machine.modals.programmode = "M1";
+    }
+    if (data[i] == "M2") {
+      status.machine.modals.programmode = "M2";
+    }
+    if (data[i] == "M30") {
+      status.machine.modals.programmode = "M30";
+    }
 
     //   status.machine.modals.spindlestate = "M5"; // M3, M4, M5
-    if (data[i] == "M3") {status.machine.modals.spindlestate = "M3";}
-    if (data[i] == "M4") {status.machine.modals.spindlestate = "M4";}
-    if (data[i] == "M5") {status.machine.modals.spindlestate = "M5";}
+    if (data[i] == "M3") {
+      status.machine.modals.spindlestate = "M3";
+    }
+    if (data[i] == "M4") {
+      status.machine.modals.spindlestate = "M4";
+    }
+    if (data[i] == "M5") {
+      status.machine.modals.spindlestate = "M5";
+    }
 
     //   status.machine.modals.coolantstate = "M9"; // M7, M8, M9
-    if (data[i] == "M7") {status.machine.modals.spindlestate = "M7";}
-    if (data[i] == "M8") {status.machine.modals.spindlestate = "M8";}
-    if (data[i] == "M9") {status.machine.modals.spindlestate = "M9";}
+    if (data[i] == "M7") {
+      status.machine.modals.spindlestate = "M7";
+    }
+    if (data[i] == "M8") {
+      status.machine.modals.spindlestate = "M8";
+    }
+    if (data[i] == "M9") {
+      status.machine.modals.spindlestate = "M9";
+    }
 
     //   status.machine.modals.tool = "0",
-    if (data[i].indexOf("T") === 0) {status.machine.modals.tool = parseFloat(data[i].substr(1))}
+    if (data[i].indexOf("T") === 0) {
+      status.machine.modals.tool = parseFloat(data[i].substr(1))
+    }
 
     //   status.machine.modals.spindle = "0"
-    if (data[i].indexOf("S") === 0) {status.machine.modals.spindle = parseFloat(data[i].substr(1))}
+    if (data[i].indexOf("S") === 0) {
+      status.machine.modals.spindle = parseFloat(data[i].substr(1))
+    }
 
     //   status.machine.modals.feedrate = "0"
-    if (data[i].indexOf("F") === 0) {status.machine.modals.feedrate = parseFloat(data[i].substr(1))}
+    if (data[i].indexOf("F") === 0) {
+      status.machine.modals.feedrate = parseFloat(data[i].substr(1))
+    }
   }
 
 
@@ -1282,19 +1398,19 @@ function parseFeedback(data) {
       if (pins.includes('H')) {
         // pause
         pause();
-        postLog('external from hardware', "Application received a FEEDHOLD notification from Grbl: This could be due to someone pressing the HOLD button (if connected), or DriverMinder on the xPROv4 detected a driver fault")
+        postLog('external from hardware', "Application received a FEEDHOLD notification from Grbl")
       } // end if HOLD
 
       if (pins.includes('R')) {
         // abort
         stop(true);
-        postLog('external from hardware',"Application received a RESET/ABORT notification from Grbl: This could be due to someone pressing the RESET/ABORT button (if connected), or DriverMinder on the xPROv4 detected a driver fault")
+        postLog('external from hardware', "Application received a RESET/ABORT notification from Grbl")
       } // end if ABORT
 
       if (pins.includes('S')) {
         // abort
         unpause();
-        postLog('external from hardware', "Application received a CYCLESTART/RESUME notification from Grbl: This could be due to someone pressing the CYCLESTART/RESUME button (if connected)")
+        postLog('external from hardware', "Application received a CYCLESTART/RESUME notification from Grbl")
       } // end if RESUME/START
     }
   } else {
@@ -1392,6 +1508,38 @@ function unpause() {
   } else {
     console.log('ERROR: Machine connection not open!');
   }
+}
+
+function portOpened(port, data) {
+  postLog("connect", "PORT INFO: Port is now open: " + port.path + " - Attempting to detect Firmware")
+  postLog("connect", "Checking for firmware on " + port.path);
+  status.comms.connectionStatus = 1;
+  addQRealtime("\n"); // this causes smoothie to send the welcome string
+  postLog("connect", "Detecting Firmware: Method 1 (Autoreset)")
+  setTimeout(function() { //wait for controller to be ready
+    if (status.machine.firmware.type.length < 1) {
+      postLog("connect", "Detecting Firmware: Method 2 (Ctrl+X)")
+      addQRealtime(String.fromCharCode(0x18)); // ctrl-x (needed for rx/tx connection)
+    }
+  }, 2000);
+  setTimeout(function() {
+    // Close port if we don't detect supported firmware after 2s.
+    if (status.machine.firmware.type.length < 1) {
+      postLog("connect", "No supported firmware detected. Closing port " + port.path)
+      stopPort();
+    } else {
+      postLog("connect", "Firmware Detected:  " + status.machine.firmware.type + " version " + status.machine.firmware.version + " on " + port.path)
+    }
+  }, 4000);
+  status.comms.connectionStatus = 2;
+  if (data.type == "usb") {
+    status.comms.interfaces.activePort = port.path;
+    status.comms.interfaces.type = data.type
+  } else if (data.type = "telnet") {
+    status.comms.interfaces.activePort = data.ip;
+    status.comms.interfaces.type = data.type
+  }
+  status.comms.interfaces.activeBaud = port.baudRate;
 }
 
 function postLog(source, data) {

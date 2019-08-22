@@ -12,14 +12,37 @@ $(document).ready(function() {
 function initUiBindings() {
   $('#connectBtn').on('click', function() {
     var port = $('#ports').val();
-    var data = {
-      port: port,
-      baud: 115200
-    };
-    socket.emit('connectTo', data);
+    if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(port)) {
+      var data = {
+        ip: port,
+        port: false,
+        baud: false,
+        type: "telnet"
+      };
+      localStorage.setItem("lastip", port);
+    } else {
+      var data = {
+        port: port,
+        baud: 115200,
+        type: "usb"
+      };
+    }
+    if (port.length > 1) {
+      socket.emit('connectTo', data);
+    } else {
+      printLog("[connect] No Ports/IP selected/entered")
+    }
   })
 
+  $('#ports').keypress(function(event) {
+    if (event.keyCode == 13) {
+      $('#connectBtn').click();
+    }
+  });
+
+
   $('#disconnectBtn').on('click', function() {
+    $('#ports').val("")
     socket.emit('closePort', true)
   })
 
@@ -65,7 +88,7 @@ function initSocket() {
 
   socket.on("status", function(status) {
     console.log(status)
-    setConnectBar(status.comms.connectionStatus);
+    setConnectBar(status.comms.connectionStatus, status);
     setDRO(status)
     updateStatuses(status)
     if (laststatus) {
@@ -252,21 +275,26 @@ function populatePortsMenu(newStatus) {
   if (!newStatus) {
     var newStatus = laststatus
   }
-  $("#ports").empty();
+  $("#portslist").empty();
+  $("#ports").attr('disabled', false);
+  $("#connectBtn").attr('disabled', false);
   var response = ``
-  if (newStatus.comms.interfaces.ports) {
-
+  if (localStorage.getItem("lastip")) {
+    var lastip = localStorage.getItem("lastip")
+    response += `<option value="` + lastip + `">(previous TCP connection)` + `</option>`;
   }
+
   for (i = 0; i < newStatus.comms.interfaces.ports.length; i++) {
     var port = friendlyPort(i, newStatus)
     response += `<option value="` + newStatus.comms.interfaces.ports[i].comName + `">` + port.note + " " + newStatus.comms.interfaces.ports[i].comName.replace("/dev/tty.", "") + `</option>`;
   };
   if (newStatus.comms.interfaces.ports.length == 0) {
     response += `<option value="">Waiting for USB</option`
+    $("#ports").attr('disabled', true);
+    $("#connectBtn").attr('disabled', true);
   }
+  $("#portslist").append(response);
 
-  $("#ports").append(response);
-  $("#connectBtn").attr('disabled', false);
 }
 
 function friendlyPort(i, newStatus) {
@@ -325,7 +353,13 @@ function friendlyPort(i, newStatus) {
 
 function setConnectBar(val, status) {
   if (val == 0) { // Not Connected Yet
-    $('#ports').attr('disabled', false);
+    if (laststatus) {
+      if (laststatus.comms.interfaces.ports.length == 0) {
+        $('#ports').attr('disabled', true);
+      } else {
+        $('#ports').attr('disabled', false);
+      }
+    }
     $('#disconnectBtn').hide();
     $('#connectBtn').show();
     $('#playBtn').attr('disabled', true).show();
@@ -336,6 +370,7 @@ function setConnectBar(val, status) {
     $('#consoleBtn').attr('disabled', true);
   } else if (val == 1 || val == 2) { // Connected, but not Playing yet
     $('#ports').attr('disabled', true);
+    $('#ports').val(status.comms.interfaces.activePort)
     $('#disconnectBtn').show();
     $('#connectBtn').hide();
     $('#playBtn').attr('disabled', false).show();
@@ -346,6 +381,7 @@ function setConnectBar(val, status) {
     $('#consoleBtn').attr('disabled', false);
   } else if (val == 3) { // Busy Streaming GCODE
     $('#ports').attr('disabled', true);
+    $('#ports').val(status.comms.interfaces.activePort)
     $('#disconnectBtn').show();
     $('#connectBtn').hide();
     $('#playBtn').attr('disabled', true).show();
@@ -356,6 +392,7 @@ function setConnectBar(val, status) {
     $('#consoleBtn').attr('disabled', true);
   } else if (val == 4) { // Paused
     $('#ports').attr('disabled', true);
+    $('#ports').val(status.comms.interfaces.activePort)
     $('#disconnectBtn').show();
     $('#connectBtn').hide();
     $('#playBtn').attr('disabled', true).hide();
@@ -366,6 +403,7 @@ function setConnectBar(val, status) {
     $('#consoleBtn').attr('disabled', false);
   } else if (val == 5) { // Alarm State
     $('#ports').attr('disabled', true);
+    $('#ports').val(status.comms.interfaces.activePort)
     $('#disconnectBtn').show();
     $('#connectBtn').hide();
     $('#playBtn').attr('disabled', true).show();
