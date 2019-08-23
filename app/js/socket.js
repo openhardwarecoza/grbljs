@@ -111,69 +111,69 @@ function updateStatuses(status) {
     switch (status.machine.firmware.features[i]) {
       case 'Q':
         // console.log('SPINDLE_IS_SERVO Enabled')
-        $('#enServo').removeClass('alert').addClass('success').html('ON')
+        $('.enServo').removeClass('alert').addClass('success').html('ON')
         $(".servo-active").show()
         break;
       case 'V': //	Variable spindle enabled
         // console.log('Variable spindle enabled')
-        $('#enVariableSpindle').removeClass('alert').addClass('success').html('ON')
+        $('.enVariableSpindle').removeClass('alert').addClass('success').html('ON')
         break;
       case 'N': //	Line numbers enabled
         // console.log('Line numbers enabled')
-        $('#enLineNumbers').removeClass('alert').addClass('success').html('ON')
+        $('.enLineNumbers').removeClass('alert').addClass('success').html('ON')
         break;
       case 'M': //	Mist coolant enabled
         // console.log('Mist coolant enabled')
         $('#menuMisting').show();
-        $('#enMisting').removeClass('alert').addClass('success').html('ON')
+        $('.enMisting').removeClass('alert').addClass('success').html('ON')
         break;
       case 'C': //	CoreXY enabled
         // console.log('CoreXY enabled')
-        $('#enCoreXY').removeClass('alert').addClass('success').html('ON')
+        $('.enCoreXY').removeClass('alert').addClass('success').html('ON')
         break;
       case 'P': //	Parking motion enabled
         // console.log('Parking motion enabled')
-        $('#enParking').removeClass('alert').addClass('success').html('ON')
+        $('.enParking').removeClass('alert').addClass('success').html('ON')
         break;
       case 'Z': //	Homing force origin enabled
         // console.log('Homing force origin enabled')
-        $('#enHomingOrigin').removeClass('alert').addClass('success').html('ON')
+        $('.enHomingOrigin').removeClass('alert').addClass('success').html('ON')
         break;
       case 'H': //	Homing single axis enabled
         // console.log('Homing single axis enabled')
-        $('#enSingleAxisHome').removeClass('alert').addClass('success').html('ON')
+        $('.enSingleAxisHome').removeClass('alert').addClass('success').html('ON')
         break;
       case 'T': //	Two limit switches on axis enabled
         // console.log('Two limit switches on axis enabled')
-        $('#enTwoLimits').removeClass('alert').addClass('success').html('ON')
+        $('.enTwoLimits').removeClass('alert').addClass('success').html('ON')
         break;
       case 'A': //	Allow feed rate overrides in probe cycles
         // console.log('Allow feed rate overrides in probe cycles')
-        $('#enFeedOVProbe').removeClass('alert').addClass('success').html('ON')
+        $('.enFeedOVProbe').removeClass('alert').addClass('success').html('ON')
         break;
       case '$': //	Restore EEPROM $ settings disabled
         // console.log('Restore EEPROM $ settings disabled')
-        $('#enEepromSettingsDisable').removeClass('alert').addClass('success').html('ON')
+        $('.enEepromSettingsDisable').removeClass('alert').addClass('success').html('ON')
         break;
       case '#': //	Restore EEPROM parameter data disabled
         // console.log('Restore EEPROM parameter data disabled')
-        $('#enEepromParamsDisable').removeClass('alert').addClass('success').html('ON')
+        $('.enEepromParamsDisable').removeClass('alert').addClass('success').html('ON')
         break;
       case 'I': //	Build info write user string disabled
         // console.log('Build info write user string disabled')
-        $('#enBuildInfoDisabled').removeClass('alert').addClass('success').html('ON')
+        $('.enBuildInfoDisabled').removeClass('alert').addClass('success').html('ON')
         break;
       case 'E': //	Force sync upon EEPROM write disabled
         // console.log('Force sync upon EEPROM write disabled')
-        $('#enForceSyncEeprom').removeClass('alert').addClass('success').html('ON')
+        $('.enForceSyncEeprom').removeClass('alert').addClass('success').html('ON')
         break;
       case 'W': //	Force sync upon work coordinate offset change disabled
         // console.log('Force sync upon work coordinate offset change disabled')
-        $('#enForceSyncWco').removeClass('alert').addClass('success').html('ON')
+        $('.enForceSyncWco').removeClass('alert').addClass('success').html('ON')
         break;
       case 'L': //	Homing init lock sets Grbl into an alarm state upon power up
         // console.log('Homing init lock sets Grbl into an alarm state upon power up')
-        $('#enHomingInitLock').removeClass('alert').addClass('success').html('ON')
+        $('.enHomingInitLock').removeClass('alert').addClass('success').html('ON')
         break;
     }
   }
@@ -185,35 +185,35 @@ function updateStatuses(status) {
       switch (status.machine.inputs[i]) {
         case 'X':
           // console.log('PIN: X-LIMIT');
-          $('#xpin').removeClass('success').addClass('alert').html('ON')
+          $('.xpin').removeClass('success').addClass('alert').html('ON')
           break;
         case 'Y':
           // console.log('PIN: Y-LIMIT');
-          $('#ypin').removeClass('success').addClass('alert').html('ON')
+          $('.ypin').removeClass('success').addClass('alert').html('ON')
           break;
         case 'Z':
           // console.log('PIN: Z-LIMIT');
-          $('#zpin').removeClass('success').addClass('alert').html('ON')
+          $('.zpin').removeClass('success').addClass('alert').html('ON')
           break;
         case 'P':
           // console.log('PIN: PROBE');
-          $('#prbpin').removeClass('success').addClass('alert').html('ON')
+          $('.prbpin').removeClass('success').addClass('alert').html('ON')
           break;
         case 'D':
           // console.log('PIN: DOOR');
-          $('#doorpin').removeClass('success').addClass('alert').html('ON')
+          $('.doorpin').removeClass('success').addClass('alert').html('ON')
           break;
         case 'H':
           // console.log('PIN: HOLD');
-          $('#holdpin').removeClass('success').addClass('alert').html('HOLD:ON')
+          $('.holdpin').removeClass('success').addClass('alert').html('HOLD:ON')
           break;
         case 'R':
           // console.log('PIN: SOFTRESET');
-          $('#resetpin').removeClass('success').addClass('alert').html('RST:ON')
+          $('.resetpin').removeClass('success').addClass('alert').html('RST:ON')
           break;
         case 'S':
           // console.log('PIN: CYCLESTART');
-          $('#startpin').removeClass('success').addClass('alert').html('START:ON')
+          $('.startpin').removeClass('success').addClass('alert').html('START:ON')
           break;
       }
     }
@@ -241,30 +241,30 @@ function updateStatuses(status) {
       break;
   }
 
-  $('#activeConnection').html(status.comms.interfaces.activePort + " at " + status.comms.interfaces.activeBaud + " baud")
-  $('#commsQueue').html(status.comms.queue)
-  $('#driverIP').html(status.driver.ipaddress)
-  $('#driverOS').html(status.driver.operatingsystem)
-  $('#driverVer').html(status.driver.version)
-  $('#grblVer').html(status.machine.firmware.type + " " + status.machine.firmware.version + " " + status.machine.firmware.date)
+  $('.activeConnection').html(status.comms.interfaces.activePort + " at " + status.comms.interfaces.activeBaud + " baud")
+  $('.commsQueue').html(status.comms.queue)
+  $('.driverIP').html(status.driver.ipaddress)
+  $('.driverOS').html(status.driver.operatingsystem)
+  $('.driverVer').html(status.driver.version)
+  $('.grblVer').html(status.machine.firmware.type + " " + status.machine.firmware.version + " " + status.machine.firmware.date)
   if (status.machine.buffer) {
-    $('#commsBuffer').html("blocks: " + status.machine.buffer[0] + " / bytes: " + status.machine.buffer[1])
+    $('.commsBuffer').html("blocks: " + status.machine.buffer[0] + " / bytes: " + status.machine.buffer[1])
   }
-  $('#motionmode').html(status.machine.modals.motionmode)
-  $('#coordinatesys').html(status.machine.modals.coordinatesys)
-  $('#plane').html(status.machine.modals.plane)
-  $('#distancemode').html(status.machine.modals.distancemode)
-  $('#arcdistmode').html(status.machine.modals.arcdistmode)
-  $('#feedratemode').html(status.machine.modals.feedratemode)
-  $('#unitsmode').html(status.machine.modals.unitsmode)
-  $('#tlomode').html(status.machine.modals.tlomode)
-  $('#programmode').html(status.machine.modals.programmode)
-  $('#spindlestate').html(status.machine.modals.spindlestate)
-  $('#coolantstate').html(status.machine.modals.coolantstate)
-  $('#radiuscomp').html(status.machine.modals.radiuscomp)
-  $('#modaltool').html(status.machine.modals.tool)
-  $('#modalspindle').html(status.machine.modals.spindle)
-  $('#modalfeedrate').html(status.machine.modals.feedrate)
+  $('.motionmode').html(status.machine.modals.motionmode)
+  $('.coordinatesys').html(status.machine.modals.coordinatesys)
+  $('.plane').html(status.machine.modals.plane)
+  $('.distancemode').html(status.machine.modals.distancemode)
+  $('.arcdistmode').html(status.machine.modals.arcdistmode)
+  $('.feedratemode').html(status.machine.modals.feedratemode)
+  $('.unitsmode').html(status.machine.modals.unitsmode)
+  $('.tlomode').html(status.machine.modals.tlomode)
+  $('.programmode').html(status.machine.modals.programmode)
+  $('.spindlestate').html(status.machine.modals.spindlestate)
+  $('.coolantstate').html(status.machine.modals.coolantstate)
+  $('.radiuscomp').html(status.machine.modals.radiuscomp)
+  $('.modaltool').html(status.machine.modals.tool)
+  $('.modalspindle').html(status.machine.modals.spindle)
+  $('.modalfeedrate').html(status.machine.modals.feedrate)
 
 
 
@@ -419,48 +419,48 @@ function setConnectBar(val, status) {
 
 function setDRO(status) {
   if (status.comms.connectionStatus > 0) {
-    $('#xWPos').html(parseFloat(status.machine.status.work.x).toFixed(3))
-    $('#xMPos').html((parseFloat(status.machine.status.work.x) + parseFloat(status.machine.status.offset.x)).toFixed(3))
-    $('#yWPos').html(parseFloat(status.machine.status.work.y).toFixed(3))
-    $('#yMPos').html((parseFloat(status.machine.status.work.y) + parseFloat(status.machine.status.offset.y)).toFixed(3))
-    $('#zWPos').html(parseFloat(status.machine.status.work.z).toFixed(3))
-    $('#zMPos').html((parseFloat(status.machine.status.work.z) + parseFloat(status.machine.status.offset.z)).toFixed(3))
-    $('#fVal').html(parseFloat(status.machine.status.realFeed))
-    $('#sVal').html(parseFloat(status.machine.status.realSpindle))
-    $('#fValOverride').html(parseFloat(status.machine.overrides.feedOverride) + "%")
-    $('#sValOverride').html(parseFloat(status.machine.overrides.spindleOverride) + "%")
-    $('#rapidOverride').html(parseFloat(status.machine.overrides.rapidOverride) + "%")
-    $('#accSpindleCW').html("off");
-    $('#accSpindleCCW').html("off");
-    $('#accCoolant').html("off");
-    $('#accMist').html("off");
+    $('.xWPos').html(parseFloat(status.machine.status.work.x).toFixed(3))
+    $('.xMPos').html((parseFloat(status.machine.status.work.x) + parseFloat(status.machine.status.offset.x)).toFixed(3))
+    $('.yWPos').html(parseFloat(status.machine.status.work.y).toFixed(3))
+    $('.yMPos').html((parseFloat(status.machine.status.work.y) + parseFloat(status.machine.status.offset.y)).toFixed(3))
+    $('.zWPos').html(parseFloat(status.machine.status.work.z).toFixed(3))
+    $('.zMPos').html((parseFloat(status.machine.status.work.z) + parseFloat(status.machine.status.offset.z)).toFixed(3))
+    $('.fVal').html(parseFloat(status.machine.status.realFeed))
+    $('.sVal').html(parseFloat(status.machine.status.realSpindle))
+    $('.fValOverride').html(parseFloat(status.machine.overrides.feedOverride) + "%")
+    $('.sValOverride').html(parseFloat(status.machine.overrides.spindleOverride) + "%")
+    $('.rapidOverride').html(parseFloat(status.machine.overrides.rapidOverride) + "%")
+    $('.accSpindleCW').html("off");
+    $('.accSpindleCCW').html("off");
+    $('.accCoolant').html("off");
+    $('.accMist').html("off");
     for (i = 0; i < status.machine.accesories.length; i++) {
       if (status.machine.accesories[i] == "S") {
-        $('#accSpindle').html("CW");
+        $('.accSpindle').html("CW");
       }
       if (status.machine.accesories[i] == "C") {
-        $('#accSpindle').html("CCW");
+        $('.accSpindle').html("CCW");
       }
       if (status.machine.accesories[i] == "F") {
-        $('#accCoolant').html("on");
+        $('.accCoolant').html("on");
       }
       if (status.machine.accesories[i] == "M") {
-        $('#accMist').html("on");
+        $('.accMist').html("on");
       }
     }
 
   } else {
-    $('#xWPos').html("0.000");
-    $('#xMPos').html("0.000");
-    $('#yWPos').html("0.000");
-    $('#yMPos').html("0.000");
-    $('#zWPos').html("0.000");
-    $('#zMPos').html("0.000");
-    $('#sVal').html("0.0")
-    $('#fVal').html("0.0")
-    $('#sValOverride').html("100%")
-    $('#fValOverride').html("100%")
-    $('#rapidOverride').html("100%")
+    $('.xWPos').html("0.000");
+    $('.xMPos').html("0.000");
+    $('.yWPos').html("0.000");
+    $('.yMPos').html("0.000");
+    $('.zWPos').html("0.000");
+    $('.zMPos').html("0.000");
+    $('.sVal').html("0.0")
+    $('.fVal').html("0.0")
+    $('.sValOverride').html("100%")
+    $('.fValOverride').html("100%")
+    $('.rapidOverride').html("100%")
   }
 }
 

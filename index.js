@@ -74,7 +74,8 @@ var xOffset = 0.00,
   aOffset = 0.00;
 var has4thAxis = false;
 var feedOverride = 100,
-  spindleOverride = 100;
+  spindleOverride = 100,
+  rapidOverride = 100;
 
 var status = {
   driver: {
@@ -585,6 +586,33 @@ io.on("connection", function(socket) {
     }
   }); // end socket.onSpindleOverride
 
+
+  socket.on('rapidOverride', function(data) {
+    if (status.comms.connectionStatus > 0) {
+      switch (status.machine.firmware.type) {
+        case 'grbl':
+          console.log("current SRO = " + status.machine.overrides.spindleOverride)
+          console.log("requested SRO = " + data)
+          var currro = parseInt(status.machine.overrides.spindleOverride)
+          var reqrro = parseInt(data)
+          var delta;
+
+          if (reqrro == 100) {
+            addQRealtime(String.fromCharCode(0x95));
+          } else if (reqrro == 50) {
+            addQRealtime(String.fromCharCode(0x96));
+          } else if (reqrro == 25) {
+            addQRealtime(String.fromCharCode(0x97));
+          }
+          addQRealtime("?");
+          status.machine.overrides.rapidOverride = reqrro // Set now, but will be overriden from feedback from Grbl itself in next queryloop
+          break;
+      }
+    } else {
+      console.log('ERROR: Machine connection not open!');
+    }
+  }); // end socket.onRapidOverride
+
   socket.on('pause', function() {
     pause();
   }); // end socket.onPause
@@ -983,7 +1011,7 @@ function isGrbl(data) {
 
 function isSmoothie(data) {
   status.comms.blocked = false;
-  console.log("Smoothieware detected");
+  console.log("Smoothieware detected: Unsupported");
   status.machine.firmware.type = "smoothie";
   status.machine.firmware.version = data.substr(data.search(/version:/i) + 9).split(/,/);
   status.machine.firmware.date = new Date(data.substr(data.search(/Build date:/i) + 12).split(/,/)).toDateString();
@@ -1525,7 +1553,7 @@ function portOpened(port, data) {
   setTimeout(function() {
     // Close port if we don't detect supported firmware after 2s.
     if (status.machine.firmware.type.length < 1) {
-      postLog("connect", "No supported firmware detected. Closing port " + port.path)
+      postLog("connect", "ERROR:  No supported firmware detected  - You need a controller running Grbl 1.1x. Closing port " + port.path)
       stopPort();
     } else {
       postLog("connect", "Firmware Detected:  " + status.machine.firmware.type + " version " + status.machine.firmware.version + " on " + port.path)

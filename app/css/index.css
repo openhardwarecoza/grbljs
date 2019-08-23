@@ -15,7 +15,7 @@ body {
   color: #fff;
 }
 
-input:focus, textarea {
+input:focus, textarea, button:focus {
   outline: none !important;
 }
 
@@ -39,25 +39,25 @@ input:focus, textarea {
   background: #ccc;
 }
 
-table {
+.table {
   border-collapse: collapse;
 }
 
-tr:nth-child(odd) {
+.table>tbody>tr:nth-child(odd) {
   background-color: #222;
 }
 
-th {
+.table>tbody>tr>th {
   font-weight: 600;
   text-align: left;
 }
 
-tr {
+.table>tbody>tr {
   border-bottom: 1px solid #222;
   background-color: #333;
 }
 
-td {
+.table>td {
   padding-left: 3px;
 }
 
@@ -111,7 +111,7 @@ td {
   background: #ccc;
   background-color: #222;
   border: 1px solid #ccc;
-  color: #fff
+  color: #fff;
 }
 
 .btn:hover {
@@ -162,7 +162,7 @@ td {
   border: 1px solid #ccc;
   -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
-  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.65);
   resize: both;
   overflow: hidden;
 }
@@ -197,4 +197,66 @@ td {
 
 .text-secondary {
   color: #ccc !important;
+}
+
+.dro {
+  text-align: right;
+  padding-right: 20px;
+  padding-bottom: 0px;
+  text-shadow: 0 0 2px #222;
+  position: relative;
+  background-repeat: no-repeat;
+  height: 28px;
+  width: 200px;
+  margin: 5px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+}
+
+.dro-x {
+  background-image: linear-gradient(rgba(65, 78, 30, 0.6) 0%, rgba(60, 120, 60, 0.75) 20%, transparent 50%, rgba(23, 25, 17, 0.5) 75%, rgba(23, 25, 17, 0.25) 90%)
+}
+
+.dro-y {
+  background-image: linear-gradient(rgba(65, 78, 30, 0.6) 0%, rgba(120, 60, 60, 0.75) 20%, transparent 50%, rgba(23, 25, 17, 0.5) 75%, rgba(23, 25, 17, 0.25) 90%)
+}
+
+.dro-z {
+  background-image: linear-gradient(rgba(65, 78, 30, 0.6) 0%, rgba(60, 60, 120, 0.75) 20%, transparent 50%, rgba(23, 25, 17, 0.5) 75%, rgba(23, 25, 17, 0.25) 90%)
+}
+
+.dro-pos {
+  font-size: 20px;
+  font-family: "Impact", "Charcoal", sans-serif;
+  text-shadow: 0px 0px 3px #222;
+}
+
+.dro-axis {
+  padding-left: 20px;
+  font-size: 20px;
+  font-weight: 900;
+  display: block;
+  float: left;
+  text-shadow: 0px 0px 3px #222;
+}
+
+.units {
+  font-size: 12px;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-weight: 800;
+  text-shadow: 0px 0px 3px #222;
+}
+
+.jogbtn {
+  border-radius: 5px;
+  width: 3.6em;
+  height: 3.6em;
+  border: 1px solid #eee;
+  color: #eee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
+  background: -ms-linear-gradient(bottom, #1d1d1d, #131313);
+  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
+  background: -o-linear-gradient(#131313, #1d1d1d);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
+  box-shadow: 0 0.2em 0.1em 0.05em rgba(255, 255, 255, 0.1) inset, 0 -0.2em 0.1em 0.05em rgba(0, 0, 0, 0.5) inset, 0 0.5em 0.65em 0 rgba(0, 0, 0, 0.3);
 }

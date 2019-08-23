@@ -13,59 +13,160 @@
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/knob.css" />
     <script defer src="lib/fontawesome/js/all.js"></script>
+
   </head>
 
   <body>
 
 
     <div class="flex-container">
+
       <div class="card">
+        <div class="card-header">Jog</div>
+        <div class="dro dro-x">
+          <span class="dro-axis">X</span>
+          <span class="xWPos dro-pos">0.000</span>
+          <span class="units">mm</span>
+        </div>
+        <div class="dro dro-y">
+          <span class="dro-axis">Y</span>
+          <span class="yWPos dro-pos">0.000</span>
+          <span class="units">mm</span>
+        </div>
+        <div class="dro dro-z">
+          <span class="dro-axis">Z</span>
+          <span class="zWPos dro-pos">0.000</span>
+          <span class="units">mm</span>
+        </div>
+        <div class="jogkeys">
+          <center>
+            <table>
+              <tr>
+                <td></td>
+                <td><button class="jogbtn" id="yP">Y+</button></td>
+                <td></td>
+                <td></td>
+                <td><button class="jogbtn" id="zP">Z+</button></td>
+              </tr>
+              <tr>
+                <td><button class="jogbtn" id="xM">X-</button></td>
+                <td><button class="jogbtn" id="yM">Y-</button></td>
+                <td><button class="jogbtn" id="xP">X+</button></td>
+                <td></td>
+                <td><button class="jogbtn" id="zM">Z-</button></td>
+              </tr>
+            </table>
+            <input id="jograte" value="1000" />
+          </center>
+        </div>
+      </div>
+
+
+      <div class="card">
+        <div class="card-header">Override</div>
+
         <div class="knob-surround">
-          <span id="current">0%</span>
-          <div id="knob"></div>
-
+          <span id="currentfeed">0%</span>
+          <div id="knobfeed"></div>
           <span class="knob-title">FEED</span>
-
+          <span class="knob-reset"><button class="knob-reset-btn" id="reset-feed">reset</button></span>
           <div class="ticks">
-            <div class="tick activetick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-
-
+            <div class="ticksfeed activetick"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
+            <div class="ticksfeed"></div>
           </div>
-
         </div>
 
+        <div class="knob-surround">
+          <span id="currentrapid">0%</span>
+          <div id="knobrapid"></div>
+          <span class="knob-title">RAPID</span>
+          <span class="knob-reset"><button class="knob-reset-btn" id="reset-rapid">reset</button></span>
+          <div class="ticks">
+            <div class="ticksrapid activetick"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+            <div class="ticksrapid"></div>
+          </div>
+        </div>
 
-
-
+        <div class="knob-surround">
+          <span id="currentspeed">0%</span>
+          <div id="knobspeed"></div>
+          <span class="knob-title">SPEED</span>
+          <span class="knob-reset"><button class="knob-reset-btn" id="reset-speed">reset</button></span>
+          <div class="ticks">
+            <div class="ticksspeed activetick"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+            <div class="ticksspeed"></div>
+          </div>
+        </div>
 
       </div>
       <div class="card">
@@ -85,6 +186,7 @@
           <span class="InputAddOn-item"><i class="fas fa-terminal"></i></span>
           <input type="text" class="InputAddOn-field" placeholder="" aria-label="Console Command" id="consoleCommand">
           <button class="InputAddOn-item" type="button" id="consoleBtn">Send</button>
+          <button class="InputAddOn-item" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
         </div>
 
         <div class="button-group">
@@ -95,10 +197,12 @@
           <button type="button" class="button-group-item btn" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
         </div>
       </div>
+    </div>
+    <div class="flex-container">
       <div class="card">
         <div class="card-header">Parameters</div>
-        <div style="height: 50vh; overflow-y: auto; ">
-          <table class="table table-sm">
+        <div style="height: 350px; overflow-y: auto; ">
+          <table class="table">
             <tr>
               <th scope="col">Accesories</th>
               <th scope="col"></th>
@@ -107,17 +211,17 @@
             <tr>
               <th scope="row">SPINDLE</th>
               <td></td>
-              <td id="accSpindle"></td>
+              <td class="accSpindle"></td>
             </tr>
             <tr>
               <th scope="row">COOLANT</th>
               <td></td>
-              <td id="accCoolant"></td>
+              <td class="accCoolant"></td>
             </tr>
             <tr>
               <th scope="row">MIST</th>
               <td></td>
-              <td id="accMist"></td>
+              <td class="accMist"></td>
             </tr>
             <tr>
               <th scope="col">Position</th>
@@ -126,18 +230,18 @@
             </tr>
             <tr>
               <th scope="row">X</th>
-              <td id="xWPos">0.00</td>
-              <td id="xMPos">0.00</td>
+              <td class="xWPos">0.00</td>
+              <td class="xMPos">0.00</td>
             </tr>
             <tr>
               <th scope="row">Y</th>
-              <td id="yWPos">0.00</td>
-              <td id="yMPos">0.00</td>
+              <td class="yWPos">0.00</td>
+              <td class="yMPos">0.00</td>
             </tr>
             <tr>
               <th scope="row">Z</th>
-              <td id="zWPos">0.00</td>
-              <td id="zMPos">0.00</td>
+              <td class="zWPos">0.00</td>
+              <td class="zMPos">0.00</td>
             </tr>
             <tr>
               <th scope="col">Overrides</th>
@@ -146,18 +250,18 @@
             </tr>
             <tr>
               <th scope="row">M3 Sxx</th>
-              <td id="sVal">0</td>
-              <td id="sValOverride">0</td>
+              <td class="sVal">0</td>
+              <td class="sValOverride">0</td>
             </tr>
             <tr>
               <th scope="row">G1 F</th>
-              <td id="fVal">0</td>
-              <td id="fValOverride">0</td>
+              <td class="fVal">0</td>
+              <td class="fValOverride">0</td>
             </tr>
             <tr>
               <th scope="row">Rapid</th>
-              <td id="rapidVal"></td>
-              <td id="rapidOverride">0</td>
+              <td class="rapidVal"></td>
+              <td class="rapidOverride">0</td>
             </tr>
             <tr>
               <th scope="col">Modal</th>
@@ -168,77 +272,77 @@
             <tr>
               <th scope="row">Motion Mode</th>
               <td></td>
-              <td id="motionmode"></td>
+              <td class="motionmode"></td>
             </tr>
             <tr>
               <th scope="row">Coordinate System Select</th>
               <td></td>
-              <td id="coordinatesys"></td>
+              <td class="coordinatesys"></td>
             </tr>
             <tr>
               <th scope="row">Plane Select</th>
               <td></td>
-              <td id="plane"></td>
+              <td class="plane"></td>
             </tr>
             <tr>
               <th scope="row">Distance Mode</th>
               <td></td>
-              <td id="distancemode"></td>
+              <td class="distancemode"></td>
             </tr>
             <tr>
               <th scope="row">Arc IJK Distance Mode</th>
               <td></td>
-              <td id="arcdistmode"></td>
+              <td class="arcdistmode"></td>
             </tr>
             <tr>
               <th scope="row">Feed Rate Mode</th>
               <td></td>
-              <td id="feedratemode"></td>
+              <td class="feedratemode"></td>
             </tr>
             <tr>
               <th scope="row">Units Mode</th>
               <td></td>
-              <td id="unitsmode"></td>
+              <td class="unitsmode"></td>
             </tr>
             <tr>
               <th scope="row">Tool Length set</th>
               <td></td>
-              <td id="tlomode"></td>
+              <td class="tlomode"></td>
             </tr>
             <tr>
               <th scope="row">Program Mode</th>
               <td></td>
-              <td id="programmode"></td>
+              <td class="programmode"></td>
             </tr>
             <tr>
               <th scope="row">Spindle State</th>
               <td></td>
-              <td id="spindlestate"></td>
+              <td class="spindlestate"></td>
             </tr>
             <tr>
               <th scope="row">Coolant State</th>
               <td></td>
-              <td id="coolantstate"></td>
+              <td class="coolantstate"></td>
             </tr>
             <tr>
               <th scope="row">Cutter Radius Compensation </th>
               <td></td>
-              <td id="radiuscomp"></td>
+              <td class="radiuscomp"></td>
             </tr>
             <tr>
               <th scope="row">Modal Tool T?</th>
               <td></td>
-              <td id="modaltool"></td>
+              <td class="modaltool"></td>
             </tr>
             <tr>
               <th scope="row">Modal Spindle S? </th>
               <td></td>
-              <td id="modalspindle"></td>
+              <td class="modalspindle"></td>
             </tr>
             <tr>
               <th scope="row">Modal Feedrate F? </th>
               <td></td>
-              <td id="modalfeedrate"></td>
+              <td class="modalfeedrate"></td>
             </tr>
             <tr>
               <th scope="col">Info</th>
@@ -249,47 +353,47 @@
             <tr>
               <th scope="row">blocked</th>
               <td></td>
-              <td><span id="commsBlocked"></span></td>
+              <td><span class="commsBlocked"></span></td>
             </tr>
             <tr>
               <th scope="row">connectionStatus</th>
               <td></td>
-              <td><span id="commsConnectionStatus"></span></td>
+              <td><span class="commsConnectionStatus"></span></td>
             </tr>
             <tr>
               <th scope="row">USB Connection</th>
               <td></td>
-              <td><span id="activeConnection"></span></td>
+              <td><span class="activeConnection"></span></td>
             </tr>
             <tr>
               <th scope="row">Buffer</th>
               <td></td>
-              <td><span id="commsBuffer"></span></td>
+              <td><span class="commsBuffer"></span></td>
             </tr>
             <tr>
               <th scope="row">Queue</th>
               <td></td>
-              <td><span id="commsQueue"></span></td>
+              <td><span class="commsQueue"></span></td>
             </tr>
             <tr>
               <th scope="row">IP</th>
               <td></td>
-              <td><span id="driverIP"></span></td>
+              <td><span class="driverIP"></span></td>
             </tr>
             <tr>
               <th scope="row">O/S</th>
               <td></td>
-              <td><span id="driverOS"></span></td>
+              <td><span class="driverOS"></span></td>
             </tr>
             <tr>
               <th scope="row">Version</th>
               <td></td>
-              <td><span id="driverVer"></span></td>
+              <td><span class="driverVer"></span></td>
             </tr>
             <tr>
               <th scope="row">Grbl Version</th>
               <td></td>
-              <td><span id="grblVer"></span></td>
+              <td><span class="grblVer"></span></td>
             </tr>
             <tr>
               <th scope="col">Compiled</th>
@@ -300,87 +404,87 @@
             <tr>
               <th scope="row">Variable Spindle</th>
               <td></td>
-              <td id="enVariableSpindle"></td>
+              <td class="enVariableSpindle"></td>
             </tr>
             <tr>
               <th scope="row">Laser Mode Enabled ($32 Setting)</th>
               <td></td>
-              <td id="enLaser"></td>
+              <td class="enLaser"></td>
             </tr>
             <tr>
               <th scope="row">Grbl-Servo Installed</th>
               <td></td>
-              <td id="enServo"></td>
+              <td class="enServo"></td>
             </tr>
             <tr>
               <th scope="row">Line Numbers Enabled</th>
               <td></td>
-              <td id="enLineNumbers"></td>
+              <td class="enLineNumbers"></td>
             </tr>
             <tr>
               <th scope="row">Mist Cooling Enabled</th>
               <td></td>
-              <td id="enMisting"></td>
+              <td class="enMisting"></td>
             </tr>
             <tr>
               <th scope="row">CoreXY Enabled</th>
               <td></td>
-              <td id="enCoreXY"></td>
+              <td class="enCoreXY"></td>
             </tr>
             <tr>
               <th scope="row">Parking Motion Enabled</th>
               <td></td>
-              <td id="enParking"></td>
+              <td class="enParking"></td>
             </tr>
             <tr>
               <th scope="row">Homing Force Origin Enabled</th>
               <td></td>
-              <td id="enHomingOrigin"></td>
+              <td class="enHomingOrigin"></td>
             </tr>
             <tr>
               <th scope="row">Single Axis Homing</th>
               <td></td>
-              <td id="enSingleAxisHome"></td>
+              <td class="enSingleAxisHome"></td>
             </tr>
             <tr>
               <th scope="row">Two Limit Switches on Axis Enabled</th>
               <td></td>
-              <td id="enTwoLimits"></td>
+              <td class="enTwoLimits"></td>
             </tr>
             <tr>
               <th scope="row">Allow Feed Override in Probe</th>
               <td></td>
-              <td id="enFeedOVProbe"></td>
+              <td class="enFeedOVProbe"></td>
             </tr>
             <tr>
               <th scope="row">Restore EEPROM $-settings Disabled</th>
               <td></td>
-              <td id="enEepromSettingsDisable"></td>
+              <td class="enEepromSettingsDisable"></td>
             </tr>
             <tr>
               <th scope="row">Restore EEPROM parameter Disabled</th>
               <td></td>
-              <td id="enEepromParamsDisable"></td>
+              <td class="enEepromParamsDisable"></td>
             </tr>
             <tr>
               <th scope="row">Build Info Write Disabled</th>
               <td></td>
-              <td id="enBuildInfoDisabled"></td>
+              <td class="enBuildInfoDisabled"></td>
             </tr>
             <tr>
               <th scope="row">Force Sync on EEPROM write Disabled</th>
               <td></td>
-              <td id="enForceSyncEeprom"></td>
+              <td class="enForceSyncEeprom"></td>
             </tr>
             <tr>
               <th scope="row">Force Sync on WCO Disabled</th>
               <td></td>
-              <td id="enForceSyncWco"></td>
+              <td class="enForceSyncWco"></td>
             </tr>
             <tr>
               <th scope="row">Homing Init Lock</th>
               <td></td>
-              <td id="enHomingInitLock"></td>
+              <td class="enHomingInitLock"></td>
             </tr>
             <tr>
               <th scope="col">Pins</th>
@@ -391,42 +495,42 @@
             <tr>
               <th scope="row">X-Limit</th>
               <td></td>
-              <td id="xpin" class="pinstatus">NOCOMM</td>
+              <td class="xpin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Y-Limit</th>
               <td></td>
-              <td id="ypin" class="pinstatus">NOCOMM</td>
+              <td class="ypin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Z-Limit</th>
               <td></td>
-              <td id="zpin" class="pinstatus">NOCOMM</td>
+              <td class="zpin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Probe</th>
               <td></td>
-              <td id="prbpin" class="pinstatus">NOCOMM</td>
+              <td class="prbpin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Door Sensor</th>
               <td></td>
-              <td id="doorpin" class="pinstatus">NOCOMM</td>
+              <td class="doorpin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Start Button</th>
               <td></td>
-              <td id="startpin" class="pinstatus">NOCOMM</td>
+              <td class="startpin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Hold Button</th>
               <td></td>
-              <td id="holdpin" class="pinstatus">NOCOMM</td>
+              <td class="holdpin" class="pinstatus">NOCOMM</td>
             </tr>
             <tr>
               <th scope="row">Reset Button</th>
               <td></td>
-              <td id="resetpin" class="pinstatus">NOCOMM</td>
+              <td class="resetpin" class="pinstatus">NOCOMM</td>
               </td>
             </tr>
           </table>
@@ -446,6 +550,7 @@
   <script type="text/javascript" src="lib/jquery.min.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="js/knob.js"></script>
+  <script type="text/javascript" src="js/jog.js"></script>
   <script type="text/javascript" src="js/socket.js"></script>
 
 </html>
