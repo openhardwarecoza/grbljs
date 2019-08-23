@@ -260,3 +260,19 @@ input:focus, textarea, button:focus {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
   box-shadow: 0 0.2em 0.1em 0.05em rgba(255, 255, 255, 0.1) inset, 0 -0.2em 0.1em 0.05em rgba(0, 0, 0, 0.5) inset, 0 0.5em 0.65em 0 rgba(0, 0, 0, 0.3);
 }
+
+/* Ripple effect */
+.ripple {
+  background-position: center;
+  transition: background 0.8s;
+}
+
+.ripple:hover {
+  background: #474747 radial-gradient(circle, transparent 1%, #474747 1%) center/15000%;
+}
+
+.ripple:active {
+  background-color: #6e6e6e;
+  background-size: 100%;
+  transition: background 0s;
+}

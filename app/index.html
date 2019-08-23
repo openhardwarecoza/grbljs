@@ -43,17 +43,17 @@
             <table>
               <tr>
                 <td></td>
-                <td><button class="jogbtn" id="yP">Y+</button></td>
+                <td><button class="jogbtn ripple" id="yP">Y+</button></td>
                 <td></td>
                 <td></td>
-                <td><button class="jogbtn" id="zP">Z+</button></td>
+                <td><button class="jogbtn ripple" id="zP">Z+</button></td>
               </tr>
               <tr>
-                <td><button class="jogbtn" id="xM">X-</button></td>
-                <td><button class="jogbtn" id="yM">Y-</button></td>
-                <td><button class="jogbtn" id="xP">X+</button></td>
+                <td><button class="jogbtn ripple" id="xM">X-</button></td>
+                <td><button class="jogbtn ripple" id="yM">Y-</button></td>
+                <td><button class="jogbtn ripple" id="xP">X+</button></td>
                 <td></td>
-                <td><button class="jogbtn" id="zM">Z-</button></td>
+                <td><button class="jogbtn ripple" id="zM">Z-</button></td>
               </tr>
             </table>
             <input id="jograte" value="1000" />
@@ -69,7 +69,7 @@
           <span id="currentfeed">0%</span>
           <div id="knobfeed"></div>
           <span class="knob-title">FEED</span>
-          <span class="knob-reset"><button class="knob-reset-btn" id="reset-feed">reset</button></span>
+          <span class="knob-reset"><button class="knob-reset-btn ripple" id="reset-feed">reset</button></span>
           <div class="ticks">
             <div class="ticksfeed activetick"></div>
             <div class="ticksfeed"></div>
@@ -108,7 +108,7 @@
           <span id="currentrapid">0%</span>
           <div id="knobrapid"></div>
           <span class="knob-title">RAPID</span>
-          <span class="knob-reset"><button class="knob-reset-btn" id="reset-rapid">reset</button></span>
+          <span class="knob-reset"><button class="knob-reset-btn ripple" id="reset-rapid">reset</button></span>
           <div class="ticks">
             <div class="ticksrapid activetick"></div>
             <div class="ticksrapid"></div>
@@ -133,7 +133,7 @@
           <span id="currentspeed">0%</span>
           <div id="knobspeed"></div>
           <span class="knob-title">SPEED</span>
-          <span class="knob-reset"><button class="knob-reset-btn" id="reset-speed">reset</button></span>
+          <span class="knob-reset"><button class="knob-reset-btn ripple" id="reset-speed">reset</button></span>
           <div class="ticks">
             <div class="ticksspeed activetick"></div>
             <div class="ticksspeed"></div>
@@ -176,8 +176,8 @@
           <input class="InputAddOn-field" type="text" name="city" list="portslist" id="ports" placeholder="Port or IP" autocomplete="on">
           <datalist id="portslist">
           </datalist>
-          <button type="button" class="InputAddOn-item success" id="connectBtn">Connect</button>
-          <button type="button" class="InputAddOn-item alert" id="disconnectBtn">Disconnect</button>
+          <button type="button" class="InputAddOn-item success ripple" id="connectBtn">Connect</button>
+          <button type="button" class="InputAddOn-item alert ripple" id="disconnectBtn">Disconnect</button>
         </div>
 
         <div class="monitor" id="console"></div>
@@ -185,8 +185,8 @@
         <div class="InputAddOn">
           <span class="InputAddOn-item"><i class="fas fa-terminal"></i></span>
           <input type="text" class="InputAddOn-field" placeholder="" aria-label="Console Command" id="consoleCommand">
-          <button class="InputAddOn-item" type="button" id="consoleBtn">Send</button>
-          <button class="InputAddOn-item" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
+          <button class="InputAddOn-item ripple" type="button" id="consoleBtn">Send</button>
+          <button class="InputAddOn-item ripple" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
         </div>
 
         <div class="button-group">
