@@ -10,11 +10,11 @@
   margin: 10px;
   margin-bottom: 55px;
   background: #181818;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
-  background: -ms-linear-gradient(bottom, #1d1d1d, #131313);
-  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
-  background: -o-linear-gradient(#131313, #1d1d1d);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #111111));
+  background: -ms-linear-gradient(bottom, #1d1d1d, #111111);
+  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #111111 100%);
+  background: -o-linear-gradient(#111111, #1d1d1d);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#111111', endColorstr='#1d1d1d', GradientType=0);
   box-shadow: 0 0.2em 0.1em 0.05em rgba(255, 255, 255, 0.1) inset, 0 -0.2em 0.1em 0.05em rgba(0, 0, 0, 0.5) inset, 0 0.5em 0.65em 0 rgba(0, 0, 0, 0.3);
 }
 

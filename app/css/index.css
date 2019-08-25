@@ -15,6 +15,11 @@ body {
   color: #fff;
 }
 
+@font-face {
+  font-family: 'digital-7';
+  src: url('digital-7.ttf');
+}
+
 input:focus, textarea, button:focus {
   outline: none !important;
 }
@@ -201,56 +206,96 @@ input:focus, textarea, button:focus {
 
 .dro {
   text-align: right;
-  padding-right: 20px;
   padding-bottom: 0px;
   text-shadow: 0 0 2px #222;
   position: relative;
   background-repeat: no-repeat;
-  height: 28px;
-  width: 200px;
+  height: 45px;
+  width: 260px;
   margin: 5px;
   border: 1px solid #eee;
   border-radius: 6px;
+  padding-right: 6px;
+  background: rgba(232, 245, 214, 1);
+  background: -moz-linear-gradient(left, rgba(232, 245, 214, 1) 13%, rgba(247, 251, 240, 1) 43%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 83%);
+  background: -webkit-gradient(left top, right top, color-stop(13%, rgba(232, 245, 214, 1)), color-stop(43%, rgba(247, 251, 240, 1)), color-stop(60%, rgba(255, 255, 255, 1)), color-stop(83%, rgba(255, 255, 255, 1)));
+  background: -webkit-linear-gradient(left, rgba(232, 245, 214, 1) 13%, rgba(247, 251, 240, 1) 43%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 83%);
+  background: -o-linear-gradient(left, rgba(232, 245, 214, 1) 13%, rgba(247, 251, 240, 1) 43%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 83%);
+  background: -ms-linear-gradient(left, rgba(232, 245, 214, 1) 13%, rgba(247, 251, 240, 1) 43%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 83%);
+  background: linear-gradient(to right, rgba(232, 245, 214, 1) 13%, rgba(247, 251, 240, 1) 43%, rgba(255, 255, 255, 1) 60%, rgba(255, 255, 255, 1) 83%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e8f5d6', endColorstr='#ffffff', GradientType=1);
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.65);
 }
 
 .dro-x {
-  background-image: linear-gradient(rgba(65, 78, 30, 0.6) 0%, rgba(60, 120, 60, 0.75) 20%, transparent 50%, rgba(23, 25, 17, 0.5) 75%, rgba(23, 25, 17, 0.25) 90%)
+  color: #005500;
 }
 
 .dro-y {
-  background-image: linear-gradient(rgba(65, 78, 30, 0.6) 0%, rgba(120, 60, 60, 0.75) 20%, transparent 50%, rgba(23, 25, 17, 0.5) 75%, rgba(23, 25, 17, 0.25) 90%)
+  color: #880000;
 }
 
 .dro-z {
-  background-image: linear-gradient(rgba(65, 78, 30, 0.6) 0%, rgba(60, 60, 120, 0.75) 20%, transparent 50%, rgba(23, 25, 17, 0.5) 75%, rgba(23, 25, 17, 0.25) 90%)
+  color: #000088;
 }
 
-.dro-pos {
-  font-size: 20px;
-  font-family: "Impact", "Charcoal", sans-serif;
+.dro-f {
+  color: #222;
+}
+
+.dro-s {
+  color: #222;
+}
+
+.dro-wpos {
+  font-size: 28px;
+  font-family: 'digital-7';
+  font-weight: bold;
   text-shadow: 0px 0px 3px #222;
 }
 
-.dro-axis {
-  padding-left: 20px;
-  font-size: 20px;
-  font-weight: 900;
+.dro-mpos {
+  font-size: 16px;
+  font-family: 'digital-7';
+  font-weight: bold;
+  text-shadow: 0px 0px 3px #222;
+}
+
+.axis {
+  padding-left: 6px;
   display: block;
   float: left;
-  text-shadow: 0px 0px 3px #222;
+  font-size: 28px;
+  color: #222;
 }
 
-.units {
-  font-size: 12px;
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-  font-weight: 800;
-  text-shadow: 0px 0px 3px #222;
+.axis-x {
+  color: #005500;
+}
+
+.axis-y {
+  color: #880000;
+}
+
+.axis-z {
+  color: #000088;
+}
+
+.axis-f {
+  color: #222;
+}
+
+.axis-s {
+  color: #222;
 }
 
 .jogbtn {
+  font-size: 11px;
   border-radius: 5px;
-  width: 3.6em;
-  height: 3.6em;
+  width: 56px;
+  height: 56px;
   border: 1px solid #eee;
   color: #eee;
   background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
@@ -258,7 +303,98 @@ input:focus, textarea, button:focus {
   background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
   background: -o-linear-gradient(#131313, #1d1d1d);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
+  box-shadow: 2px 3px #111;
+}
+
+.led {
+  position: relative;
+}
+
+.led:before {
+  position: absolute;
+  content: '';
+  right: 1px;
+  top: 1px;
+  width: 8px;
+  height: 8px;
+  background: #646464;
+  background-image: radial-gradient(top, #616161 0%, #616161 20%, #535353 60%);
+  border-radius: 50%;
+  box-shadow: 0 0 4px #1C1C17;
+  transition: all .3s ease;
+}
+
+.led:hover:before {
+  /* background: #330000; */
+  box-shadow: 0 0 4px #1C1C17,
+    0 0 5px #42FF42;
+}
+
+/* .led:active:before {
+  box-shadow: 0 0 4px #1C1C17,
+    inset 0 2px 2px 0px #CC0000;
+} */
+.ledactive:before {
+  position: absolute;
+  content: '';
+  right: 1px;
+  top: 1px;
+  width: 8px;
+  height: 8px;
+  background: #00CC00;
+  background-image: radial-gradient(top, #616161 0%, #616161 20%, #535353 60%);
+  border-radius: 50%;
+  box-shadow: 0 0 4px #1C1C17;
+  transition: all .3s ease;
+  box-shadow: 0 0 4px #1C1C17,
+    inset 0 2px 2px 0px #00CC00;
+}
+
+#jograte, #jogdist {
+  padding-right: 4px;
+  text-align: right;
+  width: 176px;
+  height: 36px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  color: #eee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
+  background: -ms-linear-gradient(bottom, #1d1d1d, #131313);
+  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
+  background: -o-linear-gradient(#131313, #1d1d1d);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
   box-shadow: 0 0.2em 0.1em 0.05em rgba(255, 255, 255, 0.1) inset, 0 -0.2em 0.1em 0.05em rgba(0, 0, 0, 0.5) inset, 0 0.5em 0.65em 0 rgba(0, 0, 0, 0.3);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+/* For IE10 */
+select::-ms-expand {
+  display: none;
+}
+
+#jogratez, #jogdistz {
+  padding-right: 4px;
+  text-align: right;
+  width: 55px;
+  height: 36px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  color: #eee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
+  background: -ms-linear-gradient(bottom, #1d1d1d, #131313);
+  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
+  background: -o-linear-gradient(#131313, #1d1d1d);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
+  box-shadow: 0 0.2em 0.1em 0.05em rgba(255, 255, 255, 0.1) inset, 0 -0.2em 0.1em 0.05em rgba(0, 0, 0, 0.5) inset, 0 0.5em 0.65em 0 rgba(0, 0, 0, 0.3);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+#jogratez option, #jogdistz option, #jograte option, #jogdist option {
+  background-color: #333;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
 /* Ripple effect */

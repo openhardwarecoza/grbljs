@@ -21,44 +21,176 @@
 
     <div class="flex-container">
 
+
+
       <div class="card">
-        <div class="card-header">Jog</div>
-        <div class="dro dro-x">
-          <span class="dro-axis">X</span>
-          <span class="xWPos dro-pos">0.000</span>
-          <span class="units">mm</span>
-        </div>
-        <div class="dro dro-y">
-          <span class="dro-axis">Y</span>
-          <span class="yWPos dro-pos">0.000</span>
-          <span class="units">mm</span>
-        </div>
-        <div class="dro dro-z">
-          <span class="dro-axis">Z</span>
-          <span class="zWPos dro-pos">0.000</span>
-          <span class="units">mm</span>
-        </div>
-        <div class="jogkeys">
-          <center>
-            <table>
-              <tr>
-                <td></td>
-                <td><button class="jogbtn ripple" id="yP">Y+</button></td>
-                <td></td>
-                <td></td>
-                <td><button class="jogbtn ripple" id="zP">Z+</button></td>
-              </tr>
-              <tr>
-                <td><button class="jogbtn ripple" id="xM">X-</button></td>
-                <td><button class="jogbtn ripple" id="yM">Y-</button></td>
-                <td><button class="jogbtn ripple" id="xP">X+</button></td>
-                <td></td>
-                <td><button class="jogbtn ripple" id="zM">Z-</button></td>
-              </tr>
-            </table>
-            <input id="jograte" value="1000" />
-          </center>
-        </div>
+        <div class="card-header">WCS</div>
+        <center>
+          <table>
+            <tr>
+              <td><button class="jogbtn ripple led ledactive" id="">ACT G54 WCS</button></td>
+              <td><button class="jogbtn ripple led" id="">ACT G55 WCS</button></td>
+              <td><button class="jogbtn ripple led" id="">ACT G56 WCS</button></td>
+              <td><button class="jogbtn ripple led" id="">ACT G57 WCS</button></td>
+              <td><button class="jogbtn ripple led" id="">ACT G58 WCS</button></td>
+              <td><button class="jogbtn ripple led" id="">ACT G59 WCS</button></td>
+            </tr>
+            <tr>
+              <td><button class="jogbtn ripple" id="">SET G28.1 OFFST</button></td>
+              <td><button class="jogbtn ripple" id="">SET G30 OFFST</button></td>
+              <td><button class="jogbtn ripple" id="">SET G43.1 TOOL COMP</button></td>
+              <td><button class="jogbtn ripple" id="">SET G92 OFFST</button></td>
+              <td><button class="jogbtn ripple" id="">G90 ABS MODE</button></td>
+              <td><button class="jogbtn ripple" id="">G93 INV TIME FEED</button></td>
+            </tr>
+            <tr>
+              <td><button class="jogbtn ripple" id="">GO G28.1 OFFST</button></td>
+              <td><button class="jogbtn ripple" id="">GO G28.1 OFFST</button></td>
+              <td><button class="jogbtn ripple" id="">CLEAR TOOL COMP</button></td>
+              <td><button class="jogbtn ripple" id="">CLEAR G92 OFFST</button></td>
+              <td><button class="jogbtn ripple" id="">G91 INC MODE</button></td>
+              <td><button class="jogbtn ripple" id="">G94 UNITS /MIN FEED</button></td>
+            </tr>
+          </table>
+      </div>
+      <div class="card">
+        <div class="card-header">JOG</div>
+
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td><button class="jogbtn ripple" id="yP">Y+</button></td>
+            <td></td>
+            <td><button class="jogbtn ripple" id="zP">Z+</button></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><button class="jogbtn ripple" id="xM">X-</button></td>
+            <td><button class="jogbtn ripple" id="yM">Y-</button></td>
+            <td><button class="jogbtn ripple" id="xP">X+</button></td>
+            <td><button class="jogbtn ripple" id="zM">Z-</button></td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td colspan="3">
+              <select id="jogdist">
+                <option value="0.1">0.1mm</option>
+                <option value="1">1mm</option>
+                <option value="10">10mm</option>
+                <option value="100">100mm</option>
+              </select>
+            </td>
+            <td>
+              <select id="jogdistz">
+                <option value="0.1">0.1mm</option>
+                <option value="1">1mm</option>
+                <option value="10">10mm</option>
+                <option value="100">100mm</option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td colspan="3">
+              <select id="jograte">
+                <option value="500">500mm/min</option>
+                <option value="800">800mm/min</option>
+                <option value="1000">1000mm/min</option>
+                <option value="2000">2000mm/min</option>
+                <option value="3000">3000mm/min</option>
+                <option value="4000">4000mm/min</option>
+                <option value="5000">5000mm/min</option>
+              </select>
+            </td>
+            <td>
+              <select id="jogratez">
+                <option value="200">200mm/min</option>
+                <option value="500">500mm/min</option>
+                <option value="800">800mm/min</option>
+                <option value="1000">1000mm/min</option>
+                <option value="2000">2000mm/min</option>
+              </select></td>
+          </tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header">DRO</div>
+        <table>
+          <tr>
+            <td>
+              <div class="dro dro-x">
+                <div class="axis axis-x">X</div>
+                <div class="xWPos dro-wpos">0.000</div>
+                <div class="xWPos dro-mpos">0.000</div>
+              </div>
+            </td>
+            <td><button class="jogbtn ripple" id="">HOME X</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO MACH X</button></td>
+            <td><button class="jogbtn ripple" id="">SET ZERO WORK X</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO WORK X</button></td>
+            <td><button class="jogbtn ripple" id="">PROBE X ZERO</button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dro dro-y">
+                <div class="axis axis-y">Y</div>
+                <div class="yWPos dro-wpos">0.000</div>
+                <div class="yMPos dro-mpos">0.000</div>
+              </div>
+            </td>
+            <td><button class="jogbtn ripple" id="">HOME Y</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO MACH Y</button></td>
+            <td><button class="jogbtn ripple" id="">SET ZERO WORK Y</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO WORK Y</button></td>
+            <td><button class="jogbtn ripple" id="">PROBE Y ZERO</button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dro dro-z">
+                <div class="axis axis-z">Z</div>
+                <div class="zWPos dro-wpos">0.000</div>
+                <div class="zMPos dro-mpos">0.000</div>
+              </div>
+            </td>
+            <td><button class="jogbtn ripple" id="">HOME Z</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO MACH Z</button></td>
+            <td><button class="jogbtn ripple" id="">SET ZERO WORK Z</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO WORK Z</button></td>
+            <td><button class="jogbtn ripple" id="">PROBE Z ZERO</button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dro dro-f">
+                <div class="axis axis-f">F</div>
+                <div class="fVal dro-wpos">0.000</div>
+                <div class="fValOverride dro-mpos">0.000</div>
+              </div>
+            </td>
+            <td><button class="jogbtn ripple" id="">HOME XYZ</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO MACH XYZ</button></td>
+            <td><button class="jogbtn ripple" id="">SET ZERO WORK XYZ</button></td>
+            <td><button class="jogbtn ripple" id="">GO ZERO WORK XYZ</button></td>
+            <td><button class="jogbtn ripple" id="">PROBE XYZ ZERO</button></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="dro dro-s">
+                <div class="axis axis-s">S</div>
+                <div class="sVal dro-wpos">0.000</div>
+                <div class="sValOverride dro-mpos">0.000</div>
+              </div>
+            </td>
+            <td><button class="jogbtn ripple led" id="">TOOL M3</button></td>
+            <td><button class="jogbtn ripple led" id="">TOOL M4</button></td>
+            <td><button class="jogbtn ripple led" id="">COOL ANT M8</button></td>
+            <td><button class="jogbtn ripple led" id="">MIST M7</button></td>
+            <td><button class="jogbtn ripple" id=""></button></td>
+          </tr>
+        </table>
+        </center>
       </div>
 
 
@@ -189,19 +321,22 @@
           <button class="InputAddOn-item ripple" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
         </div>
 
-        <div class="button-group">
-          <button type="button" class="button-group-item btn" id="playBtn"><i class="fas fa-play"></i></button>
-          <button type="button" class="button-group-item btn" id="pauseBtn"><i class="fas fa-pause"></i></button>
-          <button type="button" class="button-group-item btn" id="resumeBtn"><i class="fas fa-play"></i></button>
-          <button type="button" class="button-group-item btn" id="stopBtn"><i class="fas fa-stop"></i></button>
-          <button type="button" class="button-group-item btn" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
-        </div>
+
       </div>
     </div>
     <div class="flex-container">
       <div class="card">
         <div class="card-header">Parameters</div>
         <div style="height: 350px; overflow-y: auto; ">
+
+          <div class="button-group">
+            <button type="button" class="button-group-item btn" id="playBtn"><i class="fas fa-play"></i></button>
+            <button type="button" class="button-group-item btn" id="pauseBtn"><i class="fas fa-pause"></i></button>
+            <button type="button" class="button-group-item btn" id="resumeBtn"><i class="fas fa-play"></i></button>
+            <button type="button" class="button-group-item btn" id="stopBtn"><i class="fas fa-stop"></i></button>
+            <button type="button" class="button-group-item btn" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
+          </div>
+
           <table class="table">
             <tr>
               <th scope="col">Accesories</th>

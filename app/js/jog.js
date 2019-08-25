@@ -38,6 +38,9 @@ $(document).ready(function() {
   // $("#jograteinch").keyup(function() {
   //   inchtommrate()
   // });
+
+
+
 });
 
 function mmMode() {
