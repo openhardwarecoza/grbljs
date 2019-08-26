@@ -91,6 +91,7 @@ function initSocket() {
     setConnectBar(status.comms.connectionStatus, status);
     setDRO(status)
     updateStatuses(status)
+    updateLEDs(status)
     if (laststatus) {
       if (status.comms.interfaces.ports.length != laststatus.comms.interfaces.ports.length) {
         populatePortsMenu(status)
@@ -105,7 +106,7 @@ function initSocket() {
 };
 
 function updateStatuses(status) {
-
+  $('.singleaxishomingbtn').prop('disabled', true);
   for (i = 0; i < status.machine.firmware.features.length; i++) {
     // console.log(status.machine.firmware.features)
     switch (status.machine.firmware.features[i]) {
@@ -142,6 +143,7 @@ function updateStatuses(status) {
       case 'H': //	Homing single axis enabled
         // console.log('Homing single axis enabled')
         $('.enSingleAxisHome').removeClass('alert').addClass('success').html('ON')
+        $('.singleaxishomingbtn').prop('disabled', false);
         break;
       case 'T': //	Two limit switches on axis enabled
         // console.log('Two limit switches on axis enabled')
@@ -174,6 +176,10 @@ function updateStatuses(status) {
       case 'L': //	Homing init lock sets Grbl into an alarm state upon power up
         // console.log('Homing init lock sets Grbl into an alarm state upon power up')
         $('.enHomingInitLock').removeClass('alert').addClass('success').html('ON')
+        break;
+      case '2': //	Dual motor support for self-squaring gantry homing.
+        $('.enDualAxisHoming').removeClass('alert').addClass('success').html('ON')
+        //
         break;
     }
   }

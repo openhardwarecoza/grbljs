@@ -219,13 +219,15 @@ io.on("connection", function(socket) {
   socket.on("connectTo", function(data) { // If a user picks a port to connect to, open a Node SerialPort Instance to it
     console.log(data)
     if (status.comms.connectionStatus < 1) {
-      postLog("connect", "Connecting to " + data.port + " at baud " + data.baud + " via " + data.type)
+
 
       if (data.type == "usb") {
+        postLog("connect", "Connecting to " + data.port + " at baud " + data.baud + " via " + data.type)
         port = new SerialPort(data.port, {
           baudRate: parseInt(data.baud)
         });
       } else if (data.type == "telnet") {
+        postLog("connect", "Connecting to " + data.ip + " via " + data.type)
         port = net.connect(23, data.ip);
         port.isOpen = true;
       }
@@ -287,13 +289,6 @@ io.on("connection", function(socket) {
       parser.on("data", function(data) {
 
         console.log(data)
-        // Response Messages: Normal send command and execution response acknowledgement. Used for streaming.
-        // -----------------
-        //
-        // Push Messages:
-        // -------------
-        // [GC:] : Indicates a queried $G g-code state message.
-        // [HLP:] : Indicates the help message.
 
         var command = sentBuffer[0];
 
@@ -723,6 +718,15 @@ function addQRealtime(gcode) {
 }
 
 function machineSend(gcode) {
+  if (gcode.indexOf("$") != 0) {
+    if (gcode.indexOf("G54") != -1 || gcode.indexOf("G55") != -1 || gcode.indexOf("G56") != -1 || gcode.indexOf("G57") != -1 || gcode.indexOf("G58") != -1 || gcode.indexOf("G59") != -1 || gcode.indexOf("G20") != -1 || gcode.indexOf("G21") != -1 || gcode.indexOf("G90") != -1 || gcode.indexOf("G91") != -1 || gcode.indexOf("G93") != -1 || gcode.indexOf("G94") != -1 || gcode.indexOf("M3") != -1 || gcode.indexOf("M4") != -1 || gcode.indexOf("M5") != -1 || gcode.indexOf("M7") != -1 || gcode.indexOf("M8") != -1 || gcode.indexOf("M9") != -1) {
+      setTimeout(function() {
+        addQRealtime("$G\n");
+        addQRealtime("$#\n");
+      }, 200)
+    }
+  }
+
   // console.log("SENDING: " + gcode)
   if (port.isOpen) {
     var queueLeft = (gcodeQueue.length - queuePointer)
@@ -955,6 +959,10 @@ function parseOpt(data) {
           postLog("features", 'Homing init lock sets Grbl into an alarm state upon power up')
           //
           break;
+        case '2': //	Homing init lock sets Grbl into an alarm state upon power up
+          postLog("features", 'Dual axis motors,Enabled')
+          //
+          break;
       }
     }
     status.machine.firmware.features = features;
@@ -1000,6 +1008,8 @@ function isGrbl(data) {
   }
   status.machine.firmware.date = "";
   addQRealtime("$I\n");
+  addQRealtime("$G\n");
+  addQRealtime("$#\n");
   console.log("GRBL detected");
   // Start interval for status queries
   statusLoop = setInterval(function() {
@@ -1167,13 +1177,13 @@ function gotModals(data) {
 
     //   status.machine.modals.coolantstate = "M9"; // M7, M8, M9
     if (data[i] == "M7") {
-      status.machine.modals.spindlestate = "M7";
+      status.machine.modals.coolantstate = "M7";
     }
     if (data[i] == "M8") {
-      status.machine.modals.spindlestate = "M8";
+      status.machine.modals.coolantstate = "M8";
     }
     if (data[i] == "M9") {
-      status.machine.modals.spindlestate = "M9";
+      status.machine.modals.coolantstate = "M9";
     }
 
     //   status.machine.modals.tool = "0",
@@ -1549,16 +1559,16 @@ function portOpened(port, data) {
       postLog("connect", "Detecting Firmware: Method 2 (Ctrl+X)")
       addQRealtime(String.fromCharCode(0x18)); // ctrl-x (needed for rx/tx connection)
     }
-  }, 2000);
+  }, 1000);
   setTimeout(function() {
     // Close port if we don't detect supported firmware after 2s.
     if (status.machine.firmware.type.length < 1) {
-      postLog("connect", "ERROR:  No supported firmware detected  - You need a controller running Grbl 1.1x. Closing port " + port.path)
+      postLog("connect", "ERROR:  No supported firmware detected  - You need a controller running Grbl 1.1x. Closing port " + status.comms.interfaces.activePort)
       stopPort();
     } else {
-      postLog("connect", "Firmware Detected:  " + status.machine.firmware.type + " version " + status.machine.firmware.version + " on " + port.path)
+      postLog("connect", "Firmware Detected:  " + status.machine.firmware.type + " version " + status.machine.firmware.version + " on " + status.comms.interfaces.activePort)
     }
-  }, 4000);
+  }, 2000);
   status.comms.connectionStatus = 2;
   if (data.type == "usb") {
     status.comms.interfaces.activePort = port.path;
