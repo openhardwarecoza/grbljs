@@ -211,7 +211,7 @@ var serviceInterval = setInterval(function() {
   }
   // Update UI
   io.sockets.emit("status", status);
-}, 500);
+}, 100);
 
 // Handlers:
 // Handler: IO

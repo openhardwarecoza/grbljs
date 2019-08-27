@@ -18,65 +18,9 @@
 
   <body>
 
+    <div class="appbar"></div>
 
     <div class="flex-container">
-
-
-
-      <div class="card">
-        <div class="card-header">WCS / MODALS</div>
-        <center>
-          <table class="buttonspad">
-            <tr>
-              <td><button class="jogbtn ripple wcsbtn led ledactive" id="g54btn">ACT G54 WCS</button></td>
-              <td><button class="jogbtn ripple wcsbtn led" id="g55btn">ACT G55 WCS</button></td>
-              <td><button class="jogbtn ripple wcsbtn led" id="g56btn">ACT G56 WCS</button></td>
-              <td><button class="jogbtn ripple wcsbtn led" id="g57btn">ACT G57 WCS</button></td>
-              <td><button class="jogbtn ripple wcsbtn led" id="g58btn">ACT G58 WCS</button></td>
-              <td><button class="jogbtn ripple wcsbtn led" id="g59btn">ACT G59 WCS</button></td>
-            </tr>
-          </table>
-          <table class="buttonspad">
-            <tr>
-              <td><button class="jogbtn ripple unitsmodebtn led" id="g20btn">G20 INCH MODE</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple distancemodebtn led" id="g90btn">G90 ABS MODE</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple feedmodebtn led" id="g93btn">G93 INV TIME FEED</button></td>
-            </tr>
-            <tr>
-              <td><button class="jogbtn ripple unitsmodebtn led" id="g21btn">G21 MM MODE</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple distancemodebtn led" id="g91btn">G91 INCR MODE</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple feedmodebtn led" id="g94btn">G94 UNITS /MIN FEED</button></td>
-            </tr>
-          </table>
-          <table class="buttonspad">
-            <tr>
-              <td><button class="jogbtn ripple" id="" disabled>SET G28.1 OFFST</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple" id="" disabled>SET G30 OFFST</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple" id="" disabled>SET G92 OFFST</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple" id="g43.1btn" disabled>SET G43.1 TOOL COMP</button></td>
-
-            </tr>
-            <tr>
-              <td><button class="jogbtn ripple" id="" disabled>GO G28.1 OFFST</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple" id="" disabled>GO G30 OFFST</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple" id="" disabled>CLEAR G92 OFFST</button></td>
-              <td></td>
-              <td><button class="jogbtn ripple" id="g49btn" disabled>NO TOOL COMP G49</button></td>
-
-            </tr>
-
-          </table>
-        </center>
-      </div>
 
       <div class="card">
         <div class="card-header">DRO</div>
@@ -149,7 +93,7 @@
             <td><button class="jogbtn ripple led" id="m4btn" disabled>TOOL M4</button></td>
             <td><button class="jogbtn ripple led" id="m8btn">COOL FLUSH M8</button></td>
             <td><button class="jogbtn ripple led" id="m7btn" disabled>COOL MIST M7</button></td>
-            <td><button class="jogbtn ripple" id=""></button></td>
+            <td><button class="jogbtn ripple" id="" disabled></button></td>
           </tr>
         </table>
         </center>
@@ -264,77 +208,58 @@
       </div>
 
       <div class="card">
-        <div class="card-header">JOG</div>
-        <table>
-          <tr>
-            <td></td>
-            <td></td>
-            <td><button class="jogbtn ripple" id="yP">Y+</button></td>
-            <td></td>
-            <td><button class="jogbtn ripple" id="zP">Z+</button></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><button class="jogbtn ripple" id="xM">X-</button></td>
-            <td><button class="jogbtn ripple" id="yM">Y-</button></td>
-            <td><button class="jogbtn ripple" id="xP">X+</button></td>
-            <td><button class="jogbtn ripple" id="zM">Z-</button></td>
-          </tr>
+        <div class="card-header">WCS / MODALS</div>
+        <center>
+          <table class="buttonspad">
+            <tr>
+              <td><button class="jogbtn ripple wcsbtn led ledactive" id="g54btn">ACT G54 WCS</button></td>
+              <td><button class="jogbtn ripple wcsbtn led" id="g55btn">ACT G55 WCS</button></td>
+              <td><button class="jogbtn ripple wcsbtn led" id="g56btn">ACT G56 WCS</button></td>
+              <td><button class="jogbtn ripple wcsbtn led" id="g57btn">ACT G57 WCS</button></td>
+              <td><button class="jogbtn ripple wcsbtn led" id="g58btn">ACT G58 WCS</button></td>
+              <td><button class="jogbtn ripple wcsbtn led" id="g59btn">ACT G59 WCS</button></td>
+            </tr>
+          </table>
+          <table class="buttonspad">
+            <tr>
+              <td><button class="jogbtn ripple unitsmodebtn led" id="g20btn">G20 INCH MODE</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple distancemodebtn led" id="g90btn">G90 ABS MODE</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple feedmodebtn led" id="g93btn">G93 INV TIME FEED</button></td>
+            </tr>
+            <tr>
+              <td><button class="jogbtn ripple unitsmodebtn led" id="g21btn">G21 MM MODE</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple distancemodebtn led" id="g91btn">G91 INCR MODE</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple feedmodebtn led" id="g94btn">G94 UNITS /MIN FEED</button></td>
+            </tr>
+          </table>
+          <table class="buttonspad">
+            <tr>
+              <td><button class="jogbtn ripple" id="" disabled>SET G28.1 OFFST</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple" id="" disabled>SET G30 OFFST</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple" id="" disabled>SET G92 OFFST</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple" id="g43.1btn" disabled>SET G43.1 TOOL COMP</button></td>
 
-          <tr>
-            <td></td>
-            <td colspan="4">
-
-              <div class="InputAddOn">
-                <span class="InputAddOn-item">Distance X/Y</span>
-                <select class="InputAddOn-field" id="jogdist">
-                  <option value="0.1">0.1</option>
-                  <option value="1">1</option>
-                  <option value="10">10</option>
-                  <option value="100">100</option>
-                </select>
-                <span class="InputAddOn-item">Z</span>
-                <select class="InputAddOn-field" id="jogdistz">
-                  <option value="0.1">0.1</option>
-                  <option value="1">1</option>
-                  <option value="10">10</option>
-                  <option value="100">100</option>
-                </select>
-                <span class="InputAddOn-item">mm</span>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td colspan="4">
-              <div class="InputAddOn">
-                <span class="InputAddOn-item">Feedrate X/Y</span>
-                <select class="InputAddOn-field" id="jograte">
-                  <option value="500">500</option>
-                  <option value="800">800</option>
-                  <option value="1000">1000</option>
-                  <option value="2000">2000</option>
-                  <option value="3000">3000</option>
-                  <option value="4000">4000</option>
-                  <option value="5000">5000</option>
-                </select>
-                <span class="InputAddOn-item">Z</span>
-                <select class="InputAddOn-field" id="jogratez">
-                  <option value="200">200</option>
-                  <option value="500">500</option>
-                  <option value="800">800</option>
-                  <option value="1000">1000</option>
-                  <option value="2000">2000</option>
-                </select>
-                <span class="InputAddOn-item">mm/min</span>
-              </div>
-            </td>
-          </tr>
-        </table>
+            </tr>
+            <tr>
+              <td><button class="jogbtn ripple" id="" disabled>GO G28.1 OFFST</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple" id="" disabled>GO G30 OFFST</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple" id="" disabled>CLEAR G92 OFFST</button></td>
+              <td></td>
+              <td><button class="jogbtn ripple" id="g49btn" disabled>NO TOOL COMP G49</button></td>
+            </tr>
+          </table>
+        </center>
       </div>
 
-    </div>
-    <div class="flex-container">
       <div class="card">
         <div class="card-header">Interface</div>
         <div class="InputAddOn">
@@ -345,21 +270,187 @@
           <button type="button" class="InputAddOn-item success ripple" id="connectBtn">Connect</button>
           <button type="button" class="InputAddOn-item alert ripple" id="disconnectBtn">Disconnect</button>
         </div>
-
         <div class="monitor" id="console"></div>
-
         <div class="InputAddOn">
           <span class="InputAddOn-item"><i class="fas fa-terminal"></i></span>
           <input type="text" class="InputAddOn-field" placeholder="" aria-label="Console Command" id="consoleCommand">
           <button class="InputAddOn-item ripple" type="button" id="consoleBtn">Send</button>
           <button class="InputAddOn-item ripple" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
         </div>
-
-
       </div>
+
+    </div>
+    <div class="flex-container">
+
+      <div class="card">
+        <div class="card-header">JOG</div>
+        <table>
+          <tr>
+            <td rowspan="2">
+              <button class="jogbtn ripple jogbtn-x" id="xM">
+                <span class="fa-layers fa-fw">
+                  <i class="fas fa-arrow-left" data-fa-transform="grow-8 down-1.5"></i>
+                  <span class="fa-layers-text" data-fa-transform="grow-5 up-24" style="font-weight:600">X-</span>
+                  <span class="fa-layers-text distlabel" data-fa-transform="grow-2 down-24" style="font-weight:600">10mm</span>
+                </span>
+              </button>
+            </td>
+            <td>
+              <button class="jogbtn ripple jogbtn-y" id="yP">
+                <span class="fa-layers fa-fw">
+                  <i class="fas fa-arrow-up" data-fa-transform="grow-8 down-1.5"></i>
+                  <span class="fa-layers-text" data-fa-transform="grow-5 up-24" style="font-weight:600">Y+</span>
+                  <span class="fa-layers-text distlabel" data-fa-transform="grow-2 down-24" style="font-weight:600">10mm</span>
+                </span>
+              </button>
+            </td>
+            <td rowspan="2">
+              <button class="jogbtn ripple jogbtn-x" id="xP">
+                <span class="fa-layers fa-fw">
+                  <i class="fas fa-arrow-right" data-fa-transform="grow-8 down-1.5"></i>
+                  <span class="fa-layers-text" data-fa-transform="grow-5 up-24" style="font-weight:600">X+</span>
+                  <span class="fa-layers-text distlabel" data-fa-transform="grow-2 down-24" style="font-weight:600">10mm</span>
+                </span>
+              </button>
+            </td>
+            <td>
+              <button class="jogbtn ripple jogbtn-z" id="zP">
+                <span class="fa-layers fa-fw">
+                  <i class="fas fa-arrow-up" data-fa-transform="grow-8 down-1.5"></i>
+                  <span class="fa-layers-text" data-fa-transform="grow-5 up-24" style="font-weight:600">Z+</span>
+                  <span class="fa-layers-text distlabel" data-fa-transform="grow-2 down-24" style="font-weight:600">10mm</span>
+                </span>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <button class="jogbtn ripple jogbtn-y" id="yM">
+                <span class="fa-layers fa-fw">
+                  <i class="fas fa-arrow-down" data-fa-transform="grow-8 down-1.5"></i>
+                  <span class="fa-layers-text" data-fa-transform="grow-5 up-24" style="font-weight:600">Y-</span>
+                  <span class="fa-layers-text distlabel" data-fa-transform="grow-2 down-24" style="font-weight:600">10mm</span>
+                </span>
+              </button>
+            </td>
+            <td>
+              <button class="jogbtn ripple jogbtn-z" id="zM">
+                <span class="fa-layers fa-fw">
+                  <i class="fas fa-arrow-down" data-fa-transform="grow-8 down-1.5"></i>
+                  <span class="fa-layers-text" data-fa-transform="grow-5 up-24" style="font-weight:600">Z-</span>
+                  <span class="fa-layers-text distlabel" data-fa-transform="grow-2 down-24" style="font-weight:600">10mm</span>
+                </span>
+              </button>
+            </td>
+          </tr>
+        </table>
+
+        <table>
+          <tr>
+            <td><button class="jogbtn ripple distbtn led" id="dist01">0.1mm</button></td>
+            <td><button class="jogbtn ripple distbtn led" id="dist1">1mm</button></td>
+            <td><button class="jogbtn ripple distbtn led ledactive" id="dist10">10mm</button></td>
+            <td><button class="jogbtn ripple distbtn led" id="dist100">100mm</button></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">JOG RATE</div>
+        <div class="knob-surround">
+          <span id="currentxyjograte">0 mm/min</span>
+          <span id="unitzjograte">mm/min</span>
+          <div id="knobxyjograte"></div>
+          <span class="knob-title">XY&nbsp;JOG&nbsp;RATE</span>
+          <!-- <span class="knob-reset ripple"><button class="knob-reset-btn ripple" id="reset-feed">reset</button></span> -->
+          <div class="ticks">
+            <div class="ticksxyjograte activetick"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+            <div class="ticksxyjograte"></div>
+          </div>
+        </div>
+        <div class="knob-surround">
+          <span id="currentzjograte">0 mm/min</span>
+          <span id="unitzjograte">mm/min</span>
+          <div id="knobzjograte"></div>
+          <span class="knob-title">Z&nbsp;JOG&nbsp;RATE</span>
+          <!-- <span class="knob-reset ripple"><button class="knob-reset-btn ripple" id="reset-feed">reset</button></span> -->
+          <div class="ticks">
+            <div class="tickszjograte activetick"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+            <div class="tickszjograte"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Job</div>
+        <div class="button-group">
+          <button type="button" class="button-group-item jogbtn ripple" id="playBtn"><i class="fas fa-play"></i></button>
+          <button type="button" class="button-group-item jogbtn ripple" id="pauseBtn"><i class="fas fa-pause"></i></button>
+          <button type="button" class="button-group-item jogbtn ripple" id="resumeBtn"><i class="fas fa-play"></i></button>
+          <button type="button" class="button-group-item jogbtn ripple" id="stopBtn"><i class="fas fa-stop"></i></button>
+          <button type="button" class="button-group-item jogbtn ripple" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header">Parameters</div>
-        <div style="height: 350px; overflow-y: auto; ">
+        <div style="height: 200px; overflow-y: auto; ">
 
           <table class="table">
             <tr>
@@ -700,16 +791,7 @@
           </table>
         </div>
       </div>
-      <div class="card">
-        <div class="card-header">Job</div>
-        <div class="button-group">
-          <button type="button" class="button-group-item jogbtn ripple" id="playBtn"><i class="fas fa-play"></i></button>
-          <button type="button" class="button-group-item jogbtn ripple" id="pauseBtn"><i class="fas fa-pause"></i></button>
-          <button type="button" class="button-group-item jogbtn ripple" id="resumeBtn"><i class="fas fa-play"></i></button>
-          <button type="button" class="button-group-item jogbtn ripple" id="stopBtn"><i class="fas fa-stop"></i></button>
-          <button type="button" class="button-group-item jogbtn ripple" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
-        </div>
-      </div>
+
     </div>
 
 

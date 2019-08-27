@@ -69,8 +69,6 @@ $(document).ready(function() {
   });
   //
 
-
-
   $('#m8btn').on('click', function() {
     if (laststatus.machine.modals.coolantstate == "M8") {
       socket.emit('runCommand', "M9")

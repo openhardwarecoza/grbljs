@@ -2,6 +2,9 @@ Number.prototype.map = function(in_min, in_max, out_min, out_max) {
   return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+var xyjograte = 0;
+var zjograte = 0;
+
 const knobfeed = document.getElementById('knobfeed');
 const currfeed = document.getElementById('currentfeed');
 const resetfeed = document.getElementById('reset-feed');
@@ -29,10 +32,30 @@ const maxrapid = 100;
 let anglerapid = 100;
 var rapidOverrideEvent;
 
+const knobxyjograte = document.getElementById('knobxyjograte');
+const currxyjograte = document.getElementById('currentxyjograte');
+const resetxyjograte = document.getElementById('reset-xyjograte');
+const ticksxyjograte = Array.from(document.getElementsByClassName('ticksxyjograte'));
+const minxyjograte = 50;
+const maxxyjograte = 200;
+let anglexyjograte = 160;
+var xyjograteOverrideEvent;
+
+const knobzjograte = document.getElementById('knobzjograte');
+const currzjograte = document.getElementById('currentzjograte');
+const resetzjograte = document.getElementById('reset-zjograte');
+const tickszjograte = Array.from(document.getElementsByClassName('tickszjograte'));
+const minzjograte = 50;
+const maxzjograte = 200;
+let anglezjograte = 95;
+var zjograteOverrideEvent;
+
 $(document).ready(function() {
   setAngleFeed()
   setAngleSpeed()
   setAngleRapid()
+  setAngleXYJograte()
+  setAngleZJograte()
 })
 
 const transform = (() => {
@@ -71,11 +94,21 @@ function turntUpRapid(bool) {
       anglerapid = 25
     }
   }
-
-  // anglerapid = (bool && anglerapid + 5 <= maxrapid) ?
-  //   anglerapid + 5 : (!bool && anglerapid - 5 >= minrapid) ?
-  //   anglerapid - 5 : anglerapid;
   return setAngleRapid();
+}
+
+function turntUpXYJograte(bool) {
+  anglexyjograte = (bool && anglexyjograte + 5 <= maxxyjograte) ?
+    anglexyjograte + 5 : (!bool && anglexyjograte - 5 >= minxyjograte) ?
+    anglexyjograte - 5 : anglexyjograte;
+  return setAngleXYJograte();
+}
+
+function turntUpZJograte(bool) {
+  anglezjograte = (bool && anglezjograte + 5 <= maxzjograte) ?
+    anglezjograte + 5 : (!bool && anglezjograte - 5 >= minzjograte) ?
+    anglezjograte - 5 : anglezjograte;
+  return setAngleZJograte();
 }
 
 function setAngleFeed() {
@@ -141,7 +174,54 @@ function setAngleRapid() {
   }, 200);
 }
 
-const handlerfeed = e => turntUpFeed(e.wheelDelta > 0);
+function setAngleXYJograte() {
+  // clearTimeout(xyjograteOverrideEvent);
+  // rotate knob
+  knobxyjograte.style[transform] = `rotate(${(anglexyjograte-60)*2}deg)`;
+  // quickly reset ticks
+  for (let tick of ticksxyjograte) {
+    tick.classList.remove('active');
+  }
+  // add glow to 'active' ticks
+  const actives = (Math.round((anglexyjograte - 50) / 5) + 1);
+  for (let tick of ticksxyjograte.slice(0, actives)) {
+    tick.classList.add('active');
+  }
+  console.log(anglexyjograte); // 0
+  // xyjograteOverrideEvent = setTimeout(function() {
+  xyjograte = anglexyjograte.map(50, 200, 500, 5000)
+  currxyjograte.innerHTML = `${xyjograte}`;
+  // socket.emit('feedOverride', anglefeed)
+  // printLog("[override] Setting Feed Override to " + anglefeed + "%");
+  // }, 200);
+}
+
+function setAngleZJograte() {
+  // clearTimeout(zjograteOverrideEvent);
+  // rotate knob
+  knobzjograte.style[transform] = `rotate(${(anglezjograte-60)*2}deg)`;
+  // quickly reset ticks
+  for (let tick of tickszjograte) {
+    tick.classList.remove('active');
+  }
+  // add glow to 'active' ticks
+  const actives = (Math.round((anglezjograte - 50) / 5) + 1);
+  for (let tick of tickszjograte.slice(0, actives)) {
+    tick.classList.add('active');
+  }
+  console.log(anglezjograte); // 0
+  // zjograteOverrideEvent = setTimeout(function() {
+  zjograte = anglezjograte.map(50, 200, 50, 1000)
+  currzjograte.innerHTML = `${zjograte}`;
+  // socket.emit('feedOverride', anglefeed)
+  // printLog("[override] Setting Feed Override to " + anglefeed + "%");
+  // }, 200);
+}
+
+const handlerfeed = function(e) {
+  e.preventDefault();
+  turntUpFeed(e.wheelDelta > 0);
+};
 knobfeed.addEventListener('mousewheel', handlerfeed);
 knobfeed.addEventListener('DOMMouseScroll', handlerfeed);
 resetfeed.addEventListener("click", function() {
@@ -149,7 +229,10 @@ resetfeed.addEventListener("click", function() {
   setAngleFeed();
 });
 
-const handlerspeed = e => turntUpSpeed(e.wheelDelta > 0);
+const handlerspeed = function(e) {
+  e.preventDefault();
+  turntUpSpeed(e.wheelDelta > 0);
+};
 knobspeed.addEventListener('mousewheel', handlerspeed);
 knobspeed.addEventListener('DOMMouseScroll', handlerspeed);
 resetspeed.addEventListener("click", function() {
@@ -157,10 +240,35 @@ resetspeed.addEventListener("click", function() {
   setAngleSpeed();
 });
 
-const handlerrapid = e => turntUpRapid(e.wheelDelta > 0);
+const handlerrapid = function(e) {
+  e.preventDefault();
+  turntUpRapid(e.wheelDelta > 0);
+};
 knobrapid.addEventListener('mousewheel', handlerrapid);
 knobrapid.addEventListener('DOMMouseScroll', handlerrapid);
 resetrapid.addEventListener("click", function() {
   anglerapid = 100;
   setAngleRapid();
 });
+
+const handlerxyjograte = function(e) {
+  e.preventDefault();
+  turntUpXYJograte(e.wheelDelta > 0);
+};
+knobxyjograte.addEventListener('mousewheel', handlerxyjograte);
+knobxyjograte.addEventListener('DOMMouseScroll', handlerxyjograte);
+// resetxyjograte.addEventListener("click", function() {
+//   anglexyjograte = 100;
+//   setAngleXYJograte();
+// });
+
+const handlerzjograte = function(e) {
+  e.preventDefault();
+  turntUpZJograte(e.wheelDelta > 0);
+}
+knobzjograte.addEventListener('mousewheel', handlerzjograte);
+knobzjograte.addEventListener('DOMMouseScroll', handlerzjograte);
+// resetzjograte.addEventListener("click", function() {
+//   anglezjograte = 100;
+//   setAngleZJograte();
+// });
