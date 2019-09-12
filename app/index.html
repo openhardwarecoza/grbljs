@@ -12,6 +12,7 @@
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/knob.css" />
+
     <script defer src="lib/fontawesome/js/all.js"></script>
 
   </head>
@@ -244,7 +245,7 @@
               <td></td>
               <td><button class="jogbtn ripple" id="" disabled>SET G92 OFFST</button></td>
               <td></td>
-              <td><button class="jogbtn ripple" id="g43.1btn" disabled>SET G43.1 TOOL COMP</button></td>
+              <td><button class="jogbtn ripple led" id="g43.1btn" disabled>SET G43.1 TOOL COMP</button></td>
 
             </tr>
             <tr>
@@ -254,7 +255,7 @@
               <td></td>
               <td><button class="jogbtn ripple" id="" disabled>CLEAR G92 OFFST</button></td>
               <td></td>
-              <td><button class="jogbtn ripple" id="g49btn" disabled>NO TOOL COMP G49</button></td>
+              <td><button class="jogbtn ripple led" id="g49btn" disabled>NO TOOL COMP G49</button></td>
             </tr>
           </table>
         </center>
@@ -792,6 +793,93 @@
         </div>
       </div>
 
+      <div class="card">
+        <div class="card-header">3D View</div>
+      </div>
+      <div class="card">
+        <div class="card-header">SD Card</div>
+        <button class="sdbtn ripple" style="width: 90px; font-size: 10px;"><i class="fas fa-sync-alt"></i> Refresh SD</button>
+        <button class="sdbtn ripple" style="width: 70px; font-size: 10px;"><i class="fas fa-upload"></i> Upload</button>
+        <div style="height: 200px; overflow-y: auto; ">
+          <table class="table">
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>file1.gcode</td>
+              <td>200kb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>file3.gcode</td>
+              <td>11mb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>job1.gcode</td>
+              <td>996kb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>crazy.gcode</td>
+              <td>1.4mb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>file1.gcode</td>
+              <td>200kb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>file3.gcode</td>
+              <td>11mb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>job1.gcode</td>
+              <td>996kb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>crazy.gcode</td>
+              <td>1.4mb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>file1.gcode</td>
+              <td>200kb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>file3.gcode</td>
+              <td>11mb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>job1.gcode</td>
+              <td>996kb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+            <tr>
+              <td><i class="far fa-file"></i></td>
+              <td>crazy.gcode</td>
+              <td>1.4mb</td>
+              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+
+
     </div>
 
 
@@ -802,7 +890,6 @@
 
 
   </body>
-  <script type="text/javascript" src="lib/jquery.min.js"></script>
   <script type="text/javascript" src="lib/jquery.min.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="js/knob.js"></script>

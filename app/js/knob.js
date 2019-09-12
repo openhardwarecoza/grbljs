@@ -189,7 +189,7 @@ function setAngleXYJograte() {
   }
   console.log(anglexyjograte); // 0
   // xyjograteOverrideEvent = setTimeout(function() {
-  xyjograte = anglexyjograte.map(50, 200, 500, 5000)
+  xyjograte = anglexyjograte.map(50, 200, 500, 5000).toFixed(0)
   currxyjograte.innerHTML = `${xyjograte}`;
   // socket.emit('feedOverride', anglefeed)
   // printLog("[override] Setting Feed Override to " + anglefeed + "%");
@@ -211,7 +211,7 @@ function setAngleZJograte() {
   }
   console.log(anglezjograte); // 0
   // zjograteOverrideEvent = setTimeout(function() {
-  zjograte = anglezjograte.map(50, 200, 50, 1000)
+  zjograte = anglezjograte.map(50, 200, 50, 1000).toFixed(0)
   currzjograte.innerHTML = `${zjograte}`;
   // socket.emit('feedOverride', anglefeed)
   // printLog("[override] Setting Feed Override to " + anglefeed + "%");

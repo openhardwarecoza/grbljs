@@ -45,10 +45,10 @@ var httpsOptions = {
   key: fs.readFileSync(path.join(__dirname, 'domain-key.key')),
   cert: fs.readFileSync(path.join(__dirname, 'domain-crt.cer'))
 };
-const httpsserver = https.createServer(httpsOptions, app).listen(3001, function() {
+const httpsserver = https.createServer(httpsOptions, app).listen(8081, function() {
   console.log('https: listening on:' + ip.address() + ":3001");
 });
-const httpserver = http.listen(3000, '0.0.0.0', function() {
+const httpserver = http.listen(8080, '0.0.0.0', function() {
   console.log('http:  listening on:' + ip.address() + ":3000");
 });
 

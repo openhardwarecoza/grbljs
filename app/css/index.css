@@ -1,5 +1,5 @@
 body {
-  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-family: "Arial", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#7d7e7d+0,0e0e0e+100;Black+3D */
   background: #7d7e7d;
   /* Old browsers */
@@ -304,18 +304,7 @@ input:focus, textarea, button:focus {
 
 .jogbtn:disabled,
 .jogbtn[disabled] {
-  font-size: 11px;
-  border-radius: 5px;
-  width: 56px;
-  height: 56px;
-  border: 1px solid #777;
   color: #555;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
-  background: -ms-linear-gradient(bottom, #1d1d1d, #131313);
-  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
-  background: -o-linear-gradient(#131313, #1d1d1d);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
-  box-shadow: 2px 3px 2px #111;
 }
 
 .jogbtn-x {
@@ -356,16 +345,6 @@ input:focus, textarea, button:focus {
   transition: all .3s ease;
 }
 
-.led:hover:before:not([disabled]) {
-  /* background: #330000; */
-  box-shadow: 0 0 4px #1C1C17,
-    0 0 5px #42FF42;
-}
-
-/* .led:active:before {
-  box-shadow: 0 0 4px #1C1C17,
-    inset 0 2px 2px 0px #CC0000;
-} */
 .ledactive:before {
   position: absolute;
   content: '';
@@ -381,6 +360,23 @@ input:focus, textarea, button:focus {
   box-shadow: 0 0 0.4em 0 #00aa00,
     /* box-shadow: 0 0 4px #1C1C17, */
     inset 0 2px 2px 0px #00CC00;
+}
+
+.ledactive:disabled:before {
+  position: absolute;
+  content: '';
+  right: 1px;
+  top: 1px;
+  width: 6px;
+  height: 6px;
+  background: #007700;
+  background-image: radial-gradient(top, #616161 0%, #616161 20%, #535353 60%);
+  border-radius: 50%;
+  box-shadow: 0 0 4px #1C1C17;
+  transition: all .3s ease;
+  box-shadow: 0 0 0.4em 0 #005500,
+    /* box-shadow: 0 0 4px #1C1C17, */
+    inset 0 2px 2px 0px #008800;
 }
 
 #jograte, #jogdist {
@@ -444,4 +440,24 @@ select::-ms-expand {
   background-color: #6e6e6e;
   background-size: 100%;
   transition: background 0s;
+}
+
+.sdbtn {
+  font-size: 8px;
+  border-radius: 5px;
+  width: 30px;
+  height: 20px;
+  border: 1px solid #777;
+  color: #eee;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #1d1d1d), color-stop(1, #131313));
+  background: -ms-linear-gradient(bottom, #1d1d1d, #131313);
+  background: -moz-linear-gradient(center bottom, #1d1d1d 0%, #131313 100%);
+  background: -o-linear-gradient(#131313, #1d1d1d);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#131313', endColorstr='#1d1d1d', GradientType=0);
+  box-shadow: 2px 3px 2px #111;
+}
+
+.sdbtn:disabled,
+.sdbtn[disabled] {
+  color: #555;
 }
