@@ -138,6 +138,7 @@ var status = {
       }
     },
     firmware: {
+      ipaddress: false,
       type: "",
       version: "",
       date: "",
@@ -146,6 +147,11 @@ var status = {
       blockBufferSize: "",
       rxBufferSize: "",
     },
+    sdcard: {
+      carddetected: false,
+      filelist: [],
+      status: false
+    }
   },
   comms: {
     connectionStatus: 0, //0 = not connected, 1 = opening, 2 = connected, 3 = playing, 4 = paused
@@ -217,7 +223,7 @@ var serviceInterval = setInterval(function() {
 // Handler: IO
 io.on("connection", function(socket) {
   socket.on("connectTo", function(data) { // If a user picks a port to connect to, open a Node SerialPort Instance to it
-    console.log(data)
+    // console.log(data)
     if (status.comms.connectionStatus < 1) {
 
 
@@ -288,7 +294,7 @@ io.on("connection", function(socket) {
 
       parser.on("data", function(data) {
 
-        console.log(data)
+        // console.log(data)
 
         var command = sentBuffer[0];
 
@@ -299,6 +305,15 @@ io.on("connection", function(socket) {
 
         //Grbl Responses as per https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface#message-summary
         if (data.indexOf("ok") === 0) {
+          gotOK(data)
+        } else if (data.indexOf("No SD card") === 0) { // Grbl ESP32 Responses
+          status.machine.sdcard.carddetected = false;
+          gotOK(data)
+        } else if (data.indexOf("SD card detected") === 0) { // Grbl ESP32 Responses
+          status.machine.sdcard.carddetected = true;
+          gotOK(data)
+        } else if (data.indexOf("[FILE:") === 0) {
+          status.machine.sdcard.filelist.push(data)
           gotOK(data)
         } else if (data.indexOf('error') === 0) {
           gotError(data)
@@ -725,6 +740,13 @@ function machineSend(gcode) {
         addQRealtime("$#\n");
       }, 200)
     }
+    if (gcode.indexOf("[ESP210]") === 0) {
+      status.machine.sdcard.filelist.length = 0;
+      setTimeout(function() {
+        io.sockets.emit('sdcardlist', status.machine.sdcard);
+      }, 1000)
+    }
+
   }
 
   // console.log("SENDING: " + gcode)
@@ -828,6 +850,7 @@ function stopPort() {
       }
     },
     firmware: {
+      ipaddress: false,
       type: "",
       version: "",
       date: "",
@@ -836,6 +859,11 @@ function stopPort() {
       blockBufferSize: "",
       rxBufferSize: "",
     },
+    sdcard: {
+      carddetected: false,
+      filelist: [],
+      status: false
+    }
   }
 }
 
@@ -1011,6 +1039,10 @@ function isGrbl(data) {
   addQRealtime("$G\n");
   addQRealtime("$#\n");
   console.log("GRBL detected");
+  addQRealtime("[ESP200]\n");
+  setTimeout(function() {
+    addQRealtime("[ESP210]\n");
+  }, 500)
   // Start interval for status queries
   statusLoop = setInterval(function() {
     if (status.comms.connectionStatus > 0) {
@@ -1035,6 +1067,15 @@ function gotOK(data) {
   }
   status.comms.blocked = false;
   send1Q();
+}
+
+function gotFileName(data) {
+  if (status.machine.firmware.type === "grbl") {
+    command = sentBuffer.shift();
+  }
+  status.comms.blocked = false;
+  send1Q();
+  // console.log("Adding filename: " + data)
 }
 
 function gotModals(data) {
@@ -1228,6 +1269,17 @@ function gotMessage(data) {
   if (data.indexOf("[MSG:Reset to continue]") === 0) {
     postLog("reset", "[MSG:Reset to continue] -> Sending Reset")
     addQRealtime(String.fromCharCode(0x18)); // ctrl-x
+  }
+  // [MSG:Mode=STA:SSID=OPS_OFFICE:Status=Connected:IP=192.168.89.253:MAC=3C-71-BF-6C-C2-08]
+  if (data.indexOf("[MSG:Mode=") === 0) {
+    console.log("DATA: ", data)
+    var startIP = data.search(/IP=/i) + 3;
+    var espip;
+    if (startIP > 3) {
+      espip = data.substr(data.search(/IP=/i) + 3).split(":")[0]
+      console.log(espip)
+      status.machine.firmware.ipaddress = espip;
+    }
   }
 }
 
@@ -1451,10 +1503,23 @@ function parseFeedback(data) {
         postLog('external from hardware', "Application received a CYCLESTART/RESUME notification from Grbl")
       } // end if RESUME/START
     }
+
   } else {
     status.machine.inputs = [];
   }
   oldpinslist = pins;
+
+  // Extract SD Card Data
+  //<Run|MPos:4.226,5.035,-0.100|FS:1117,1000|SD:16.01,/file-2019-09-10.gcode>
+  var startSD = data.search(/SD:/i) + 3;
+  // console.log(startSD)
+  if (startSD > 3) {
+    var sd = data.replace(">", "").substr(startSD).split(/,|\|/);
+    status.machine.sdcard.status = sd
+  } else {
+    status.machine.sdcard.status = false
+  }
+
   // Extract Buffer Data
   var startBuf = data.search(/Bf:/i) + 3;
   if (startBuf > 3) {
@@ -1501,6 +1566,7 @@ function stop(jog) {
     status.comms.blocked = false;
     status.comms.paused = false;
     status.comms.runStatus = 'Stopped';
+    send1Q();
   } else {
     console.log('ERROR: Machine connection not open!');
   }

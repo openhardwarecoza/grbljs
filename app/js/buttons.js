@@ -1,5 +1,23 @@
 $(document).ready(function() {
 
+
+
+  $('#refreshSDbtn').on('click', function() {
+    $("#sdcardlist").empty()
+    $("#sdcardlist").html("refreshing...")
+    socket.emit('runCommand', "[ESP210]")
+  });
+
+  $('#stopBtn').on('click', function() {
+    socket.emit('stop', false);
+  });
+
+  $('#clearAlarmBtn').on('click', function() {
+    socket.emit('clearAlarm', 2);
+  });
+
+
+
   $('#homexbtn').on('click', function() {
     socket.emit('runCommand', "$HX")
   });

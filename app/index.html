@@ -19,7 +19,8 @@
 
   <body>
 
-    <div class="appbar"></div>
+    <a href="http://beaufort-west.co.za" target="_new"><img src="img/logo.svg" width="90px" style="position: absolute; right: 10px; bottom: 10px;" /></a>
+    <!-- <div class="appbar">Grbl.js</div> -->
 
     <div class="flex-container">
 
@@ -262,28 +263,6 @@
       </div>
 
       <div class="card">
-        <div class="card-header">Interface</div>
-        <div class="InputAddOn">
-          <span class="InputAddOn-item"><i class="fab fa-usb"></i></span>
-          <input class="InputAddOn-field" type="text" name="city" list="portslist" id="ports" placeholder="Port or IP" autocomplete="on">
-          <datalist id="portslist">
-          </datalist>
-          <button type="button" class="InputAddOn-item success ripple" id="connectBtn">Connect</button>
-          <button type="button" class="InputAddOn-item alert ripple" id="disconnectBtn">Disconnect</button>
-        </div>
-        <div class="monitor" id="console"></div>
-        <div class="InputAddOn">
-          <span class="InputAddOn-item"><i class="fas fa-terminal"></i></span>
-          <input type="text" class="InputAddOn-field" placeholder="" aria-label="Console Command" id="consoleCommand">
-          <button class="InputAddOn-item ripple" type="button" id="consoleBtn">Send</button>
-          <button class="InputAddOn-item ripple" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
-        </div>
-      </div>
-
-    </div>
-    <div class="flex-container">
-
-      <div class="card">
         <div class="card-header">JOG</div>
         <table>
           <tr>
@@ -439,14 +418,40 @@
       </div>
 
       <div class="card">
+        <div class="card-header">Interface</div>
+        <div class="InputAddOn">
+          <span class="InputAddOn-item"><i class="fab fa-usb"></i></span>
+          <input class="InputAddOn-field" type="text" name="city" list="portslist" id="ports" placeholder="Port or IP" autocomplete="on">
+          <datalist id="portslist">
+          </datalist>
+          <button type="button" class="InputAddOn-item success ripple" id="connectBtn">Connect</button>
+          <button type="button" class="InputAddOn-item alert ripple" id="disconnectBtn">Disconnect</button>
+        </div>
+        <div class="monitor" id="console"></div>
+        <div class="InputAddOn">
+          <span class="InputAddOn-item"><i class="fas fa-terminal"></i></span>
+          <input type="text" class="InputAddOn-field" placeholder="" aria-label="Console Command" id="consoleCommand">
+          <button class="InputAddOn-item ripple" type="button" id="consoleBtn">Send</button>
+          <button class="InputAddOn-item ripple" type="button" onclick="$('#console').empty();"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+
+
+      <div class="card">
         <div class="card-header">Job</div>
         <div class="button-group">
           <button type="button" class="button-group-item jogbtn ripple" id="playBtn"><i class="fas fa-play"></i></button>
           <button type="button" class="button-group-item jogbtn ripple" id="pauseBtn"><i class="fas fa-pause"></i></button>
           <button type="button" class="button-group-item jogbtn ripple" id="resumeBtn"><i class="fas fa-play"></i></button>
           <button type="button" class="button-group-item jogbtn ripple" id="stopBtn"><i class="fas fa-stop"></i></button>
-          <button type="button" class="button-group-item jogbtn ripple" id="clearAlarmBtn"><i class="fas fa-bell"></i></button>
+          <button type="button" class="button-group-item jogbtn ripple" id="clearAlarmBtn">
+            <span class="fa-layers" data-toggle="tooltip" data-placement="bottom" title="Flashes red when machine has entered ALARM state, click Clear Alarm button">
+              <i id="navbell" class="fas fa-bell text-alert" style="display: none;"></i>
+              <i class="far fa-bell"></i>
+            </span>
+          </button>
         </div>
+
       </div>
 
       <div class="card">
@@ -796,89 +801,19 @@
       <div class="card">
         <div class="card-header">3D View</div>
       </div>
+
       <div class="card">
         <div class="card-header">SD Card</div>
-        <button class="sdbtn ripple" style="width: 90px; font-size: 10px;"><i class="fas fa-sync-alt"></i> Refresh SD</button>
-        <button class="sdbtn ripple" style="width: 70px; font-size: 10px;"><i class="fas fa-upload"></i> Upload</button>
+        <button id="refreshSDbtn" class="sdbtn ripple" style="width: 90px; font-size: 10px;"><i class="fas fa-sync-alt"></i> Refresh SD</button>
+        <!-- <button class="sdbtn ripple" style="width: 70px; font-size: 10px;"><i class="fas fa-upload"></i> Upload</button> -->
         <div style="height: 200px; overflow-y: auto; ">
-          <table class="table">
+          <table class="table" id="sdcardlist">
             <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>file1.gcode</td>
-              <td>200kb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>file3.gcode</td>
-              <td>11mb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>job1.gcode</td>
-              <td>996kb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>crazy.gcode</td>
-              <td>1.4mb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>file1.gcode</td>
-              <td>200kb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>file3.gcode</td>
-              <td>11mb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>job1.gcode</td>
-              <td>996kb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>crazy.gcode</td>
-              <td>1.4mb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>file1.gcode</td>
-              <td>200kb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>file3.gcode</td>
-              <td>11mb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>job1.gcode</td>
-              <td>996kb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
-            </tr>
-            <tr>
-              <td><i class="far fa-file"></i></td>
-              <td>crazy.gcode</td>
-              <td>1.4mb</td>
-              <td><button class="sdbtn ripple"><i class="fas fa-play"></i></button></td>
+              <td></td>
             </tr>
           </table>
         </div>
       </div>
-
-
 
     </div>
 
@@ -896,5 +831,6 @@
   <script type="text/javascript" src="js/jog.js"></script>
   <script type="text/javascript" src="js/socket.js"></script>
   <script type="text/javascript" src="js/buttons.js"></script>
+  <script type="text/javascript" src="js/sd.js"></script>
 
 </html>

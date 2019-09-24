@@ -1,13 +1,34 @@
 var socket, server = '',
-  laststatus;
+  laststatus, bellstate = false;
 
 $(document).ready(function() {
   initSocket();
-  initUiBindings()
+  initUiBindings();
   setTimeout(function() {
-    populatePortsMenu()
-  }, 500)
+    populatePortsMenu();
+  }, 500);
+  initBell();
+
 });
+
+function initBell() {
+  var bellflash = setInterval(function() {
+    if (laststatus) {
+      if (laststatus.comms.connectionStatus == 5) {
+        if (bellstate == false) {
+          $('#navbell').hide();
+          bellstate = true
+        } else {
+          $('#navbell').show();
+          bellstate = false
+        }
+      } else {
+        $('#navbell').hide();
+      }
+    }
+
+  }, 200);
+}
 
 function initUiBindings() {
   $('#connectBtn').on('click', function() {
@@ -86,8 +107,16 @@ function initSocket() {
     printLog("[websocket] Attempting to reconnect: Try " + attemptNumber)
   });
 
+  socket.on("sdcardlist", function(sdcardlist) {
+    sdCardList(sdcardlist)
+  });
+
   socket.on("status", function(status) {
-    console.log(status)
+    // console.log(status)
+    processSDStatus(status)
+    if (status.machine.sdcard.status) {
+      status.comms.connectionStatus = 3 // override to set UI
+    }
     setConnectBar(status.comms.connectionStatus, status);
     setDRO(status)
     updateStatuses(status)
@@ -97,6 +126,7 @@ function initSocket() {
         populatePortsMenu(status)
       }
     }
+
     laststatus = status;
   });
 
@@ -502,3 +532,12 @@ $.fn.onEnterKey =
         }
       });
   }
+
+function formatBytes(a, b) {
+  if (0 == a) return "0 Bytes";
+  var c = 1024,
+    d = b || 2,
+    e = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
+    f = Math.floor(Math.log(a) / Math.log(c));
+  return parseFloat((a / Math.pow(c, f)).toFixed(d)) + e[f]
+}
