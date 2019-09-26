@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "ip": "^1.1.5",
     "lodash": "^4.17.15",
+    "request": "^2.88.0",
     "serialport": "^7.1.5",
     "socket.io": "^2.2.0"
   }

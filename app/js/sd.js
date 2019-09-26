@@ -1,25 +1,43 @@
-function sendGcodeToMyMachine(gcode) {
-  var textToWrite = "gcode";
-  var blob = new Blob([textToWrite], {
-    type: "text/plain"
-  });
-  console.log("Sending ", blob, " to https://192.168.89.253")
-  var url = "http://192.168.89.253/upload"
-  var fd = new FormData();
-  var time = new Date();
-  var string = "filename.gcode"
-  console.log(string)
-  fd.append('data', blob, string);
-  $.ajax({
-    type: 'POST',
-    url: url,
-    data: fd,
-    processData: false,
-    contentType: false
-  }).done(function(data) {
-    // console.log(data);
-    console.log('GCODE Successfully sent to OpenBuilds CONTROL! Continue from the OpenBuilds CONTROL window');
-  });
+$(document).ready(function() {
+  var fileOpen = document.getElementById('file');
+  if (fileOpen) {
+    fileOpen.addEventListener('change', readFile, false);
+  }
+
+});
+
+function readFile(evt) {
+  console.group("New FileOpen Event:");
+  console.log(evt);
+  console.groupEnd();
+  var files = evt.target.files || evt.dataTransfer.files;
+  for (var i = 0; i < files.length; i++) {
+    loadFile(files[i]);
+  }
+  document.getElementById('file').value = '';
+}
+
+function loadFile(f) {
+  // Filereader
+  // console.log("Sending ", f)
+  if (f) {
+    var r = new FileReader();
+    r.readAsText(f);
+    r.onload = function(event) {
+      // console.log(this.result, f.name)
+      sendGcodeToMyMachine(this.result, f.name);
+    };
+  }
+}
+
+
+function sendGcodeToMyMachine(gcode, filename) {
+  socket.emit("esp32upload", {
+    url: "http://" + laststatus.machine.firmware.ipaddress +
+      "/upload",
+    filename: filename,
+    gcode: gcode
+  })
 }
 
 function sdCardList(sdcardlist) {

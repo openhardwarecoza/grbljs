@@ -111,6 +111,14 @@ function initSocket() {
     sdCardList(sdcardlist)
   });
 
+  socket.on("esp32uploadstatus", function(esp32uploadstatus) {
+    if (esp32uploadstatus.status) {
+      $("#uploadSDbtn").prop('disabled', true);
+    } else {
+      $("#uploadSDbtn").prop('disabled', false);
+    }
+  });
+
   socket.on("status", function(status) {
     // console.log(status)
     processSDStatus(status)

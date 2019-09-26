@@ -30,6 +30,9 @@ var ip = require("ip");
 // telnet
 const net = require('net');
 
+// http post uploads
+const request = require('request')
+
 // WebServer
 var express = require("express");
 var app = express();
@@ -715,6 +718,12 @@ io.on("connection", function(socket) {
       console.log('ERROR: Machine connection not open!');
     }
   }); // end socket.onRunJob
+
+  socket.on('esp32upload', function(data) {
+
+    esp32grblupload(data.url, data.filename, data.gcode)
+
+  }); // end socket.esp32upload
 
 });
 
@@ -1653,3 +1662,49 @@ function postLog(source, data) {
   }
   io.sockets.emit('data', output);
 }
+
+function esp32grblupload(url, filename, gcode) {
+  var len = parseInt(gcode.length)
+  var cur = 0;
+  postLog("wifi", "Uploading " + filename)
+  io.sockets.emit('esp32uploadstatus', {
+    status: true,
+    filename: filename
+  });
+  const formData = {
+    "path": "/",
+    'myfile': new Buffer(gcode),
+    // Pass a simple key-value pair
+  }
+  const r = request.post({
+    url: url,
+    formData: formData
+  }, function optionalCallback(err, httpResponse, body) {
+    if (err) {
+      return console.error('upload failed:', err);
+    }
+    addQToEnd("[ESP210]");
+    status.comms.runStatus = 'Running'
+    send1Q();
+    console.log('Upload successful!  Server responded with:', body);
+
+    // esp32uploadstatus
+  });
+
+  r.on("end", function() {
+    postLog("wifi", filename + " upload complete")
+    console.log("Upload Complete")
+    io.sockets.emit('esp32uploadstatus', {
+      status: false,
+      filename: false
+    });
+  });
+
+  const form = r.form();
+  form.append('path', '/');
+  form.append('myfile', new Buffer(gcode), {
+    filename: filename
+  });
+}
+
+// esp32delete: http://192.168.89.253/upload?path=%2F&action=delete&filename=components.txt&PAGEID=0

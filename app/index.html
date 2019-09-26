@@ -805,7 +805,11 @@
       <div class="card">
         <div class="card-header">SD Card</div>
         <button id="refreshSDbtn" class="sdbtn ripple" style="width: 90px; font-size: 10px;"><i class="fas fa-sync-alt"></i> Refresh SD</button>
-        <!-- <button class="sdbtn ripple" style="width: 70px; font-size: 10px;"><i class="fas fa-upload"></i> Upload</button> -->
+        <button id="uploadSDbtn" class="sdbtn ripple btn-file" style="width: 70px; font-size: 10px;"><i class="fas fa-upload"></i><input class="btn-file" id="file" type="file" accept=".gcode, .gc, .tap, .nc, .cnc" />&nbsp;Upload</button>
+
+
+
+
         <div style="height: 200px; overflow-y: auto; ">
           <table class="table" id="sdcardlist">
             <tr>
